@@ -19,10 +19,8 @@ app.get('/products',async (req,res)=>{
 
 app.get('/products/:pid', async (req,res)=>{
     let id = req.params.pid
-    const products = await manager.getProducts()
-    if(isNaN(id)) return res.send(products)
-    const productRequested = await manager.getProductById(id)
-    if(!productRequested) return res.send({error: `There are any product with ID ${id}`})
+    let productRequested = await manager.getProductById(id)
+    if(!productRequested||isNaN(id)) return res.send({error: `There is no product with ID ${id}`})
     res.send(productRequested)
 })
 
