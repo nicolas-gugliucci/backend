@@ -1,27 +1,13 @@
-import productManager from './ProductManager.js'
 import express from 'express'
-
-const manager = new productManager()
+import userRouter from "./routes/products.router.js";
+import petsRouter from "./routes/carts.router.js";
 
 const app = express()
 
-app.get('/',(req,res)=>{
-    res.send('<h1 style="color:fuchsia;">Bienvenido</h1>')
-})
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-app.get('/products',async (req,res)=>{
-    let limit = req.query.limit
-    const products = await manager.getProducts()
-    if(!limit||isNaN(limit)) return res.send(products)
-    let productsLimited = products.slice(0,Number(limit))
-    res.send(productsLimited)
-})
+app.use('/api/products', userRouter)
+app.use('/api/carts', petsRouter)
 
-app.get('/products/:pid', async (req,res)=>{
-    let id = req.params.pid
-    let productRequested = await manager.getProductById(id)
-    if(!productRequested||isNaN(id)) return res.send({error: `There is no product with ID ${id}`})
-    res.send(productRequested)
-})
-
-app.listen(8080,()=>console.log("Servidor arriba"))
+const server = app.listen(8080,()=>console.log('Server arriba'))

@@ -88,5 +88,34 @@
 		"code": "avd103",
 		"stock": 10,
 		"id": 10
+	},
+	{
+		"id": 11,
+		"title": "Producto 1",
+		"description": "Este es un producto prueba",
+		"code": "abc199",
+		"price": 200,
+		"status": true,
+		"stock": 25,
+		"category": "higiene"
+	},
+	{
+		"id": 12,
+		"title": "Producto 1",
+		"description": "Este es un producto prueba",
+		"code": "abz444",
+		"price": 200,
+		"status": true,
+		"stock": 25,
+		"category": "higiene"
+	},
+	{
+		"id": 13,
+		"title": "Producto 1",
+		"description": "Este es un producto prueba",
+		"price": 200,
+		"status": true,
+		"stock": 25,
+		"category": "higiene"
 	}
 ]
