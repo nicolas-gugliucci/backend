@@ -3,7 +3,7 @@ import ProductManager from './ProductManager.js'
 
 export default class CartManager {
     constructor(){
-        this.path="../data/Carts.JSON"
+        this.path="./data/Carts.JSON"
     }
     async getCarts(){
         return fs.existsSync(this.path) 
@@ -40,17 +40,15 @@ export default class CartManager {
         catch(error){
             return error
         }
-        return 1
     }
     async addProductToCart(cid, pid){
-        
         const carts = await this.getCarts()
-        const cartIndex = carts.map(object => object.id).indexOf(cid)
-        if(!cartIndex) return -1
-        const productIndex = carts[cartIndex].products.map(object => object.id).indexOf(pid)
+        const cartIndex = carts.map(cart => cart.id).indexOf(Number(cid))
+        if(cartIndex===-1) return -1
+        const productIndex = carts[cartIndex].products.map(item => item.product).indexOf(pid)
         if(productIndex===-1){
-            const productManager = new ProductManager
-            if(productManager.getProductById(pid)===-1){
+            const productManager = new ProductManager()
+            if((await productManager.getProductById(pid))===-1){
                 return -2
             }
             const product = {
@@ -59,7 +57,7 @@ export default class CartManager {
             }
             carts[cartIndex].products.push(product)
         }else{
-            carts[cartIndex].products[productIndex] += 1
+            carts[cartIndex].products[productIndex].quantity += 1
         }
         try{
             await fs.promises.writeFile(this.path,JSON.stringify(carts,null,'\t'))

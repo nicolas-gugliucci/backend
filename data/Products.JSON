@@ -72,9 +72,9 @@
 		"id": 8
 	},
 	{
-		"title": "Producto 9",
+		"title": "Este título ha sido modificado",
 		"description": "Este es un producto prueba",
-		"price": 600,
+		"price": 1565,
 		"thumbnail": "Sin imagen",
 		"code": "cbd113",
 		"stock": 11,
@@ -100,16 +100,6 @@
 		"category": "higiene"
 	},
 	{
-		"id": 12,
-		"title": "Producto 1",
-		"description": "Este es un producto prueba",
-		"code": "abz444",
-		"price": 200,
-		"status": true,
-		"stock": 25,
-		"category": "higiene"
-	},
-	{
 		"id": 13,
 		"title": "Producto 1",
 		"description": "Este es un producto prueba",
@@ -117,5 +107,84 @@
 		"status": true,
 		"stock": 25,
 		"category": "higiene"
+	},
+	{
+		"id": 14,
+		"title": "Producto 1",
+		"description": "Este es un producto prueba",
+		"code": "abc194",
+		"price": 200,
+		"status": true,
+		"stock": 25,
+		"category": "higiene",
+		"thumbnails": [
+			"prueba"
+		]
+	},
+	{
+		"id": 15,
+		"title": "producto 1",
+		"description": "este es un producto prueba",
+		"code": "abc124",
+		"price": 200,
+		"status": true,
+		"stock": 25,
+		"category": "higiene"
+	},
+	{
+		"id": 16,
+		"title": "Multer",
+		"description": "prueba",
+		"code": "bbb333",
+		"price": 238,
+		"status": true,
+		"stock": 22,
+		"category": "prueba"
+	},
+	{
+		"id": 17,
+		"title": "Multer",
+		"description": "prueba",
+		"code": "bbb334",
+		"price": 238,
+		"status": true,
+		"stock": 22,
+		"category": "prueba"
+	},
+	{
+		"id": 18,
+		"title": "Multer",
+		"description": "prueba",
+		"code": "bbb335",
+		"price": 238,
+		"status": true,
+		"stock": 22,
+		"category": "prueba",
+		"thumbnails": [
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-03-16 105028.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-04-06 181021.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-04-06 181440.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-04-06 181529.png"
+		]
+	},
+	{
+		"id": 19,
+		"title": "Multer",
+		"description": "prueba",
+		"code": "bbb338",
+		"price": 238,
+		"status": true,
+		"stock": 22,
+		"category": "prueba",
+		"thumbnails": [
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\analisis_polos.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Bode.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\ExcursiÃ³n.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Frec_cort_inf.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Frec_cort_inf_teo.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Frec_cort_sup.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Ganancia_10k.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Ganancia_100k.png"
+		]
 	}
 ]

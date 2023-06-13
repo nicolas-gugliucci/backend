@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { uploader } from '../utils.js'
+import { uploader } from '../../utils.js'
 import productManager from '../ProductManager.js'
 
 const manager = new productManager()
@@ -24,9 +24,12 @@ router.get('/:pid', async (req,res)=>{
     res.send(productRequested)
 })
 
-router.post('/', uploader.single('file'),async function(req,res){ //uploader????
-    
-    const product = req.body
+router.post('/', uploader.array('thumbnails'),async function(req,res){
+    let product = req.body
+    if(req.files){
+        const thumbnails = req.files.map(file => file.path)
+        product = {...product , thumbnails}
+    }
     const error = await manager.addProduct(product)
     switch (error) {
         case -1:

@@ -1,12 +1,11 @@
 import {Router} from 'express'
-import { uploader } from '../utils.js'
 import CartManager from '../CartManager.js'
 
 const manager = new CartManager()
 const router = Router()
 
 router.post('/', async (req,res)=>{
-    const error = manager.newCart()
+    const error = await manager.newCart()
     if(error){
         res.status(417).send({
             status:"Error",
@@ -27,12 +26,12 @@ router.get('/:cid', async (req,res)=>{
     if(productsInCart===-1) return res.status(404).send({
                                         status:"Error",
                                         error:"Not found",
-                                        message:`There is no product with ID ${id}`
+                                        message:`There is no cart with ID ${id}`
                                     })
     res.send(productsInCart)
 })
 
-router.post(' /:cid/product/:pid', async (req,res)=>{
+router.post('/:cid/product/:pid', async (req,res)=>{
     let cid = req.params.cid
     let pid = req.params.pid
     const error = await manager.addProductToCart(cid,pid)
@@ -48,7 +47,7 @@ router.post(' /:cid/product/:pid', async (req,res)=>{
             res.status(400).send({
                 status:"Error",
                 error:"Not found",
-                message:`There is no product with ID ${id}`
+                message:`There is no product with ID ${pid}`
             })
             break;
         case 1:

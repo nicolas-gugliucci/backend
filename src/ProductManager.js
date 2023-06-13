@@ -2,7 +2,7 @@ import fs from 'fs'
 
 export default class ProductManager {
     constructor(){
-        this.path="../data/Products.JSON"
+        this.path="./data/Products.JSON"
     }
     
     async addProduct({title, description, code, price, stock, category, thumbnails}){
@@ -76,8 +76,8 @@ export default class ProductManager {
         const keys = Object.keys(update)
         const aceptados = ["title", "description", "code", "price", "stock", "category", "thumbnails"]
         for (let i = 0; i < values.length; i++) {
-            if(aceptados.indexOf(values[i])===-1) return -2
-            if(keys[i].length===0) return -3
+            if(aceptados.indexOf(keys[i])===-1) return -2
+            if(values[i].length===0) return -3
             products[productIndex][keys[i]] = values[i]
         }
         //products[products.map(object => object.id).indexOf(product.id)][campo]= update //debe funcionar con u paso de objeto que tenga todos los valores a modificar
