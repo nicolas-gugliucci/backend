@@ -3,7 +3,7 @@ import ProductManager from './ProductManager.js'
 
 export default class CartManager {
     constructor(){
-        this.path="./data/Carts.JSON"
+        this.path="../../data/Carts.JSON"
     }
     async getCarts(){
         return fs.existsSync(this.path) 

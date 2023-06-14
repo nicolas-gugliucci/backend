@@ -2,7 +2,7 @@ import fs from 'fs'
 
 export default class ProductManager {
     constructor(){
-        this.path="./data/Products.JSON"
+        this.path="../../data/Products.JSON"
     }
     
     async addProduct({title, description, code, price, stock, category, thumbnails}){
@@ -74,7 +74,7 @@ export default class ProductManager {
         const productIndex = products.map(object => object.id).indexOf(product.id)
         const values = Object.values(update)
         const keys = Object.keys(update)
-        const aceptados = ["title", "description", "code", "price", "stock", "category", "thumbnails"]
+        const aceptados = ["title", "description", "code", "price", "stock", "category", "thumbnails", "status"]
         for (let i = 0; i < values.length; i++) {
             if(aceptados.indexOf(keys[i])===-1) return -2
             if(values[i].length===0) return -3

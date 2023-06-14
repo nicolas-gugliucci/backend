@@ -1,6 +1,6 @@
 import {Router} from 'express'
-import { uploader } from '../../utils.js'
-import productManager from '../ProductManager.js'
+import { uploader } from '../utils/utils.js'
+import productManager from '../controllers/ProductManager.js'
 
 const manager = new productManager()
 const router = Router()
@@ -16,7 +16,7 @@ router.get('/', async (req,res)=>{
 router.get('/:pid', async (req,res)=>{
     let id = req.params.pid
     let productRequested = await manager.getProductById(id)
-    if(!productRequested||isNaN(id)) return res.status(404).send({
+    if(productRequested===-1||isNaN(id)) return res.status(404).send({
                                                 status:"Error",
                                                 error:"Not found",
                                                 message:`There is no product with ID ${id}`
@@ -26,10 +26,12 @@ router.get('/:pid', async (req,res)=>{
 
 router.post('/', uploader.array('thumbnails'),async function(req,res){
     let product = req.body
-    if(req.files){
+    
+    if(req.files.length!==0){
         const thumbnails = req.files.map(file => file.path)
         product = {...product , thumbnails}
     }
+    
     const error = await manager.addProduct(product)
     switch (error) {
         case -1:
@@ -43,7 +45,7 @@ router.post('/', uploader.array('thumbnails'),async function(req,res){
             res.status(400).send({
                 status:"Error",
                 error:"Invalid structure",
-                message:'Your product must have the following camps:\n-Title\n-Description\n-Code\n-Price\n-Stock\n-Category\n-Thumbnails <--(optional)'
+                message:'Your product must have the following camps:\n-Title\n-Description\n-Code\n-Price\n-Stock\n-Category\n-status\n-Thumbnails <--(optional)'
             })
             break;
         case -3:
@@ -76,9 +78,13 @@ router.post('/', uploader.array('thumbnails'),async function(req,res){
     }
 })
 
-router.put('/:pid', async (req,res)=>{
+router.put('/:pid', uploader.array('thumbnails'),async function(req,res){
     const id = req.params.pid
-    const newData = req.body
+    let newData = req.body
+    if(req.files.length!==0){
+        const thumbnails = req.files.map(file => file.path)
+        newData = {...newData , thumbnails}
+    }
     const error = await manager.updateProduct(id,newData)
     switch (error) {
         case -1:
@@ -92,7 +98,7 @@ router.put('/:pid', async (req,res)=>{
             res.status(400).send({
                 status:"Error",
                 error:"Invalid structure",
-                message:'You are trying to change a property that is not included in following list:\n-Title\n-Description\n-Code\n-Price\n-Stock\n-Category\n-Thumbnails <--(optional)'
+                message:'You are trying to change a property that is not included in following list:\n-Title\n-Description\n-Code\n-Price\n-Stock\n-Category\n-Status\n-Thumbnails'
             })
             break;
         case -3:
