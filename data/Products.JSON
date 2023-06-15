@@ -57,7 +57,7 @@
 		"title": "Producto modificado",
 		"description": "Producto de prueba",
 		"code": "aaa005",
-		"price": 330,
+		"price": 333,
 		"status": false,
 		"stock": 1,
 		"category": "Prueba2",
