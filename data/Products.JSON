@@ -1,249 +1,125 @@
 [
 	{
-		"title": "Producto 1",
-		"description": "Este es un producto prueba",
-		"price": 200,
-		"thumbnail": "Sin imagen",
-		"code": "abc123",
-		"stock": 25,
 		"id": 1,
-		"thumbnails": [
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Ganancia_100k.png"
-		]
-	},
-	{
-		"title": "Producto 2",
-		"description": "Este es un producto prueba",
-		"price": 250,
-		"thumbnail": "Sin imagen",
-		"code": "abc17",
-		"stock": 18,
-		"id": 2
-	},
-	{
-		"title": "Producto 3",
-		"description": "Este es un producto prueba",
-		"price": 300,
-		"thumbnail": "Sin imagen",
-		"code": "abc193",
-		"stock": 12,
-		"id": 3,
-		"thumbnails": [
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Ganancia_100k.png"
-		]
-	},
-	{
-		"title": "Producto 4",
-		"description": "Este es un producto prueba",
-		"price": 350,
-		"thumbnail": "Sin imagen",
-		"code": "abd173",
-		"stock": 1,
-		"id": 4
-	},
-	{
-		"title": "Producto 5",
-		"description": "Este es un producto prueba",
-		"price": 400,
-		"thumbnail": "Sin imagen",
-		"code": "abd193",
-		"stock": 9,
-		"id": 5
-	},
-	{
-		"title": "Producto 6",
-		"description": "Este es un producto prueba",
-		"price": 450,
-		"thumbnail": "Sin imagen",
-		"code": "akd173",
-		"stock": 7,
-		"id": 6
-	},
-	{
-		"title": "Producto 7",
-		"description": "Este es un producto prueba",
-		"price": 500,
-		"thumbnail": "Sin imagen",
-		"code": "abp173",
-		"stock": 22,
-		"id": 7
-	},
-	{
-		"title": "Producto 8",
-		"description": "Este es un producto prueba",
-		"price": 550,
-		"thumbnail": "Sin imagen",
-		"code": "ajd179",
-		"stock": 15,
-		"id": 8
-	},
-	{
-		"title": "Este título ha sido modificado",
-		"description": "Este es un producto prueba",
-		"price": 1565,
-		"thumbnail": "Sin imagen",
-		"code": "cbd113",
-		"stock": 11,
-		"id": 9
-	},
-	{
-		"title": "Producto 10",
-		"description": "Este es un producto prueba",
-		"price": 650,
-		"thumbnail": "Sin imagen",
-		"code": "avd103",
-		"stock": 10,
-		"id": 10
-	},
-	{
-		"id": 11,
-		"title": "Este título ha sido modificado",
-		"description": "Este es un producto prueba",
-		"code": "abc199",
-		"price": 1565,
-		"status": true,
-		"stock": 25,
-		"category": "higiene"
-	},
-	{
-		"id": 13,
-		"title": "Este título ha sido modificado",
-		"description": "Este es un producto prueba",
-		"price": 1565,
-		"status": false,
-		"stock": 25,
-		"category": "higiene"
-	},
-	{
-		"id": 14,
 		"title": "Producto 1",
-		"description": "Este es un producto prueba",
-		"code": "abc194",
-		"price": 200,
-		"status": true,
-		"stock": 25,
-		"category": "higiene",
-		"thumbnails": [
-			"prueba"
-		]
-	},
-	{
-		"id": 15,
-		"title": "producto 1",
-		"description": "este es un producto prueba",
-		"code": "abc124",
-		"price": 200,
-		"status": true,
-		"stock": 25,
-		"category": "higiene"
-	},
-	{
-		"id": 16,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb333",
-		"price": 238,
-		"status": true,
-		"stock": 22,
-		"category": "prueba"
-	},
-	{
-		"id": 17,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb334",
-		"price": 238,
-		"status": true,
-		"stock": 22,
-		"category": "prueba"
-	},
-	{
-		"id": 18,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb335",
-		"price": 238,
-		"status": true,
-		"stock": 22,
-		"category": "prueba",
-		"thumbnails": [
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-03-16 105028.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-04-06 181021.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-04-06 181440.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\images\\Captura de pantalla 2023-04-06 181529.png"
-		]
-	},
-	{
-		"id": 21,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb340",
-		"price": 238,
+		"description": "Producto de prueba",
+		"code": "aaa001",
+		"price": 380,
 		"status": true,
 		"stock": 23,
-		"category": "prueba",
+		"category": "Prueba1",
+		"thumbnails": [
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\analisis_polos.png"
+		]
+	},
+	{
+		"id": 2,
+		"title": "Producto 2",
+		"description": "Producto de prueba",
+		"code": "aaa002",
+		"price": 490,
+		"status": true,
+		"stock": 2,
+		"category": "Prueba2"
+	},
+	{
+		"id": 3,
+		"title": "Producto 3",
+		"description": "Producto de prueba",
+		"code": "aaa003",
+		"price": 420,
+		"status": true,
+		"stock": 14,
+		"category": "Prueba3",
+		"thumbnails": [
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Bode.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\ExcursiÃ³n.png"
+		]
+	},
+	{
+		"id": 4,
+		"title": "Producto 4",
+		"description": "Producto de prueba",
+		"code": "aaa004",
+		"price": 570,
+		"status": true,
+		"stock": 10,
+		"category": "Prueba3",
 		"thumbnails": [
 			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Frec_cort_inf_teo.png",
 			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Frec_cort_sup.png",
 			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Ganancia_10k.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Max_excursiÃ³n.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Max_excursiÃ³n_teo.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Ganancia_100k.png"
+		]
+	},
+	{
+		"id": 5,
+		"title": "Producto modificado",
+		"description": "Producto de prueba",
+		"code": "aaa005",
+		"price": 330,
+		"status": false,
+		"stock": 1,
+		"category": "Prueba2",
+		"thumbnails": [
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Ganancia_100k.png"
+		]
+	},
+	{
+		"id": 6,
+		"title": "Producto 6",
+		"description": "Producto de prueba",
+		"code": "aaa006",
+		"price": 500,
+		"status": true,
+		"stock": 13,
+		"category": "Prueba1"
+	},
+	{
+		"id": 7,
+		"title": "Producto 7",
+		"description": "Producto de prueba",
+		"code": "aaa007",
+		"price": 100,
+		"status": true,
+		"stock": 6,
+		"category": "Prueba2"
+	},
+	{
+		"id": 8,
+		"title": "Producto 8",
+		"description": "Producto de prueba",
+		"code": "aaa008",
+		"price": 100,
+		"status": true,
+		"stock": 33,
+		"category": "Prueba3",
+		"thumbnails": [
 			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Pto_operaciÃ³n.png"
 		]
 	},
 	{
-		"id": 22,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb341",
-		"price": 238,
+		"id": 9,
+		"title": "Producto 9",
+		"description": "Producto de prueba",
+		"code": "aaa009",
+		"price": 150,
 		"status": true,
-		"stock": 23,
-		"category": "prueba"
-	},
-	{
-		"id": 23,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb342",
-		"price": 238,
-		"status": true,
-		"stock": 23,
-		"category": "prueba",
+		"stock": 32,
+		"category": "Prueba1",
 		"thumbnails": [
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\analisis_polos.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Bode.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\ExcursiÃ³n.png"
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Max_excursiÃ³n.png",
+			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Max_excursiÃ³n_teo.png"
 		]
 	},
 	{
-		"id": 24,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb343",
-		"price": 238,
+		"id": 10,
+		"title": "Producto 10",
+		"description": "Producto de prueba",
+		"code": "aaa010",
+		"price": 200,
 		"status": true,
-		"stock": null,
-		"category": "prueba",
-		"thumbnails": [
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\analisis_polos.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Bode.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\ExcursiÃ³n.png"
-		]
-	},
-	{
-		"id": 25,
-		"title": "Multer",
-		"description": "prueba",
-		"code": "bbb347",
-		"price": 238,
-		"status": true,
-		"stock": null,
-		"category": "prueba",
-		"thumbnails": [
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\analisis_polos.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\Bode.png",
-			"C:\\Users\\nicog\\Desktop\\Full_Stack\\Backend\\Entregables\\public\\assets\\images\\ExcursiÃ³n.png"
-		]
+		"stock": 15,
+		"category": "Prueba3"
 	}
 ]

@@ -1,70 +1,73 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import CartManager from '../controllers/CartManager.js'
 
 const manager = new CartManager()
 const router = Router()
 
-router.post('/', async (req,res)=>{
+router.post('/', async (req, res) => {
     const error = await manager.newCart()
-    if(error){
+    if (error) {
         res.status(417).send({
-            status:"Error",
-            error:"Writting error",
+            status: "Error",
+            error: "Writting error",
             message: error
         })
-    }else{
+    } else {
         res.send({
-            status:'Success',
-            message:'Cart created'
+            status: 'Success',
+            message: 'Cart created'
         })
     }
 })
 
-router.get('/:cid', async (req,res)=>{
+router.get('/:cid', async (req, res) => {
     let id = req.params.cid
     let productsInCart = await manager.getCartById(id)
-    if(productsInCart===-1) return res.status(404).send({
-                                        status:"Error",
-                                        error:"Not found",
-                                        message:`There is no cart with ID ${id}`
-                                    })
-    res.send(productsInCart)
+    if (productsInCart === -1) return res.status(404).send({
+        status: "Error",
+        error: "Not found",
+        message: `There is no cart with ID ${id}`
+    })
+    res.send({
+        status: 'success',
+        payload: productsInCart
+    })
 })
 
-router.post('/:cid/product/:pid', async (req,res)=>{
+router.post('/:cid/product/:pid', async (req, res) => {
     let cid = req.params.cid
     let pid = req.params.pid
-    const error = await manager.addProductToCart(cid,pid)
+    const error = await manager.addProductToCart(cid, pid)
     switch (error) {
         case -1:
             res.status(404).send({
-                status:"Error",
-                error:"Not found",
-                message:`There is no cart with ID ${cid}`
+                status: "Error",
+                error: "Not found",
+                message: `There is no cart with ID ${cid}`
             })
             break;
         case -2:
             res.status(400).send({
-                status:"Error",
-                error:"Not found",
-                message:`There is no product with ID ${pid}`
+                status: "Error",
+                error: "Not found",
+                message: `There is no product with ID ${pid}`
             })
             break;
         case 1:
             res.send({
-                status:'Success',
-                message:'Product added to cart'
+                status: 'Success',
+                message: 'Product added to cart'
             })
             break;
         default:
             res.status(417).send({
-                status:"Error",
-                error:"Writting error",
+                status: "Error",
+                error: "Writting error",
                 message: error
             })
             break;
     }
-    
+
 })
 
 export default router
