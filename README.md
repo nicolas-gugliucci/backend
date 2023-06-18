@@ -2,7 +2,11 @@
 
 ## 🛠️ Ejecución del proyecto
 
-**Para la ejecución del proyecto se podrá clonar el proyecto y ejecutar el siguiente comando:**
+**Para la ejecución del proyecto se debe clonar el mismo y ejecutar el siguiente comando:**
+
+`npm install`
+
+**Luego de esto ejecutar:**
 
 `npm start`
 
