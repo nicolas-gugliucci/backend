@@ -14,7 +14,7 @@
 
 `nodemon ./app.js`
 
-# Para las request, utilice el siguiente formato:
+### Para las request, utilice el siguiente formato:
 
 **El siguiente ejemplo muestra un POST, recuerde que podrá prescindir del campo "thumbnails" si así lo desea.**
 
