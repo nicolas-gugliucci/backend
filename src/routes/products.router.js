@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { uploader } from '../utils/utils.js'
 import productManager from '../controllers/ProductManager.js'
+import { sendMessage } from '../utils/socket-io.js'
 
 const manager = new productManager()
 const router = Router()
@@ -32,12 +33,12 @@ router.get('/:pid', async (req, res) => {
 
 router.post('/', uploader.array('thumbnails'), async function (req, res) {
     let product = req.body
-
-    if (req.files.length !== 0) {
-        const thumbnails = req.files.map(file => file.path)
-        product = { ...product, thumbnails }
+    if(req.files){
+        if (req.files.length !== 0) {
+            const thumbnails = req.files.map(file => file.path)
+            product = { ...product, thumbnails }
+        }
     }
-
     const error = await manager.addProduct(product)
     switch (error) {
         case -1:
@@ -76,6 +77,8 @@ router.post('/', uploader.array('thumbnails'), async function (req, res) {
             })
             break;
         case undefined:
+            const products = await manager.getProducts()
+            sendMessage('lista_actualizada', products)
             res.send({
                 status: 'Success',
                 message: 'Product added'
@@ -134,6 +137,8 @@ router.put('/:pid', uploader.array('thumbnails'), async function (req, res) {
             })
             break;
         case undefined:
+            const products = await manager.getProducts()
+            sendMessage('lista_actualizada', products)
             res.send({
                 status: 'Success',
                 message: 'Product updated'
@@ -161,6 +166,8 @@ router.delete('/:pid', async (req, res) => {
             })
             break;
         case undefined:
+            const products = await manager.getProducts()
+            sendMessage('lista_actualizada', products)
             res.send({
                 status: 'Success',
                 message: 'Product deleted'

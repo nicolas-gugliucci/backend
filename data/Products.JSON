@@ -58,7 +58,7 @@
 		"description": "Producto de prueba",
 		"code": "aaa005",
 		"price": 333,
-		"status": false,
+		"status": true,
 		"stock": 1,
 		"category": "Prueba2",
 		"thumbnails": [
