@@ -1,4 +1,4 @@
-<h1 align="center">Backend - PreEntrega 1</h1>
+<h1 align="center">Backend - Primera práctica integradora</h1>
 
 ## 🛠️ Ejecución del proyecto
 
@@ -16,11 +16,14 @@
 
 ### Puede visitar los siguientes enlaces para acceder a diferentes vistas:
 
-- http://localhost:8080 En esta página encontrará el listado de productos actuales cargados a la base de datos
+- http://localhost:8080 
+    En esta página encontrará el listado de productos actuales cargados a la base de datos
 
-- http://localhost:8080/realtimeproducts En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real
+- http://localhost:8080/realtimeproducts 
+    En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real
 
-- http://localhost:8080/chat En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real
+- http://localhost:8080/chat 
+    En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real
 
 ### Para las request, utilice el siguiente formato:
 
