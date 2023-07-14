@@ -18,9 +18,9 @@
 
 **Recuerda crear tu propio archivo .env dentro de la carpeta src, en el que incluirás las variables necesarias para el funcionamiento. Las mismas serán:** 
 
-- `{{MONGO_USER}}`: [Usuario de tu base de datos de mongoDB Atlas].
+- `{{MONGO_USER}}`: Usuario de tu base de datos de MongoDB Atlas.
 
-- `{{MONGO_PASS}}`: [Contraseña de tu base de datos de mongoDB Atlas].
+- `{{MONGO_PASS}}`: Contraseña de tu base de datos de MongoDB Atlas.
 
 ## ⚒️ Testeo del proyecto:
 
