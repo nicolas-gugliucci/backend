@@ -15,7 +15,7 @@ const PORT = 8080
 
 mongoose.set('strictQuery', false)
 
-const conection = mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@coderbackend.vcz3dr4.mongodb.net/ecommerce?retryWrites=true&w=majority`)
+const conection = mongoose.connect(`${process.env.DATABASE_URL}`)
 
 const httpserver = app.listen(PORT, () => console.log('Server arriba'))
 socketConnection(httpserver)
