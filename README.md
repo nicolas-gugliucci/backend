@@ -14,16 +14,26 @@
 
 `nodemon ./app.js`
 
+## ⚙️ Configuración del proyecto:
+
+**Recuerda crear tu propio archivo .env dentro de la carpeta src, en el que incluirás las variables necesarias para el funcionamiento. Las mismas serán:** 
+
+-MONGO_USER=<usuario_de_tu_base_de_datos>
+
+-MONGO_PASS=<contraseña_de_tu_base_de_datos>
+
+## ⚒️ Testeo del proyecto:
+
 ### Puede visitar los siguientes enlaces para acceder a diferentes vistas:
 
 - http://localhost:8080 
-    En esta página encontrará el listado de productos actuales cargados a la base de datos
+    **En esta página encontrará el listado de productos actuales cargados a la base de datos**
 
 - http://localhost:8080/realtimeproducts 
-    En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real
+    **En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real**
 
 - http://localhost:8080/chat 
-    En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real
+    **En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real**
 
 ### Para las request, utilice el siguiente formato:
 
