@@ -6,6 +6,7 @@ import cartRouter from "./routes/carts.router.js";
 import userRouter from "./routes/products.router.js"
 import { socketConnection } from "./utils/socket-io.js";
 import mongoose from 'mongoose'
+import "dotenv/config"
 
 
 const app = express()
@@ -13,7 +14,8 @@ const app = express()
 const PORT = 8080
 
 mongoose.set('strictQuery', false)
-const conection = mongoose.connect('mongodb+srv://nicogna9:Nic123456@coderbackend.vcz3dr4.mongodb.net/ecommerce?retryWrites=true&w=majority')
+
+const conection = mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@coderbackend.vcz3dr4.mongodb.net/ecommerce?retryWrites=true&w=majority`)
 
 const httpserver = app.listen(PORT, () => console.log('Server arriba'))
 socketConnection(httpserver)
