@@ -8,11 +8,15 @@ const router = Router()
 
 router.get('/', async (req, res) => {
     const limit = req.query.limit
-    const products = await manager.getProducts(limit)
+    const page = req.query.page
+    const sort = req.query.sort
+    const query = req.query.query
+    const currentUrl = `http://localhost:8080${req.originalUrl}`
+    let products = await manager.getProducts(limit, page, sort, query, currentUrl)
     if (products === -8 || products?.error) errors(res, products)
     else res.send({
         status: 'success',
-        payload: products
+        ...products
     })
 })
 
@@ -30,7 +34,8 @@ router.post('/', uploader.array('thumbnails'), async function (req, res) {
     let product = req.body
     if (req.files) {
         if (req.files.length !== 0) {
-            const thumbnails = req.files.map(file => file.path)
+            let thumbnails = req.files.map(file => file.path)
+            thumbnails = thumbnails.map(e => e.slice(60, undefined))
             product = { ...product, thumbnails }
         }
     }
@@ -51,7 +56,8 @@ router.put('/:pid', uploader.array('thumbnails'), async function (req, res) {
     let newData = req.body
     if (req.files) {
         if (req.files.length !== 0) {
-            const thumbnails = req.files.map(file => file.path)
+            let thumbnails = req.files.map(file => file.path)
+            thumbnails = thumbnails.map(e => e.slice(60, undefined))
             newData = { ...newData, thumbnails }
         }
     }

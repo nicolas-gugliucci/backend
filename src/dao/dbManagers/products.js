@@ -28,14 +28,51 @@ export default class Carts {
         }
         return 1
     }
-    async getProducts(limit) {
+    async getProducts(limit, page, sort, query, currentUrl) {
         let products
+        let filter = {}
+        if (query && (query === "true") || (query === "false")) filter = { status: query }
+        else if (query) filter = { category: query }
         try {
-            products = await productModel.find({}, {}, { limit: limit }).lean()
+            products = await productModel.paginate(
+                filter, //confirmar que sea esto lo requerido
+                {
+                    limit: limit ? limit : 10,
+                    sort: sort ? { price: sort } : {},
+                    page: page ? page : 1,
+                    lean: true
+                }
+            )
         } catch (error) {
-            if (error.name === "CastError") return -8
+            if (error.name === "CastError") return -8 //revisar
             else return { message: error.message, error: error.name }
         }
+        let nextLink = null
+        let prevLink = null
+        if (products.hasNextPage) {
+            if (currentUrl?.includes('page')) {
+                const index = currentUrl.indexOf('page') + 5
+                nextLink = currentUrl.replace(`page=${currentUrl[index]}`, `page=${products.nextPage}`)
+            } else if (currentUrl?.includes('?')) nextLink = `${currentUrl}&page=${products.nextPage}`
+            else nextLink = `${currentUrl}?page=${products.nextPage}`
+        }
+        if (products.hasPrevPage) {
+            if (currentUrl?.includes('page')) {
+                const index = currentUrl.indexOf('page') + 5
+                prevLink = currentUrl.replace(`page=${currentUrl[index]}`, `page=${products.prevPage}`)
+            } else if (currentUrl?.includes('?')) prevLink = `${currentUrl}&page=${products.prevPage}`
+            else prevLink = `${currentUrl}?page=${products.prevPage}`
+        }
+        products = {
+            prevLink: prevLink,
+            nextLink: nextLink,
+            ...products
+        }
+        products.payload = products.docs
+        delete products.docs
+        delete products.totalDocs
+        delete products.limit
+        delete products.pagingCounter
         return products
     }
     async getProductById(id) {
@@ -44,7 +81,7 @@ export default class Carts {
             product = await productModel.findOne({ _id: id }).lean()
             if (!product) return -4
         } catch (error) {
-            if (error.reason.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
+            if (error.reason?.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
             else return { message: error.message, error: error.name }
         }
         return product
@@ -74,7 +111,7 @@ export default class Carts {
             const product = await productModel.deleteOne({ _id: id })
             if (!product.deletedCount) return -4
         } catch (error) {
-            if (error.reason.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
+            if (error.reason?.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
             else return { message: error.message, error: error.name }
         }
         return 1

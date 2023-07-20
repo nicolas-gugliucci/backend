@@ -1,0 +1,22 @@
+<div>
+    {{#each products}}
+        <div>
+            <p>Id: {{_id._id}}</p>
+            <p>Title: {{_id.title}}</p>
+            <p>Description: {{_id.description}}</p>
+            <p>Code: {{_id.code}}</p>
+            <p>Price: {{_id.price}}</p>
+            <p>Status: {{_id.status}}</p>
+            <p>Stock: {{_id.stock}}</p>
+            <p>Category: {{_id.category}}</p>
+            {{#if _id.thumbnails}}
+                <p>Tumbnails:</p>
+                {{#each _id.thumbnails}}
+                    <p>{{this}}</p>
+                {{/each}}
+            {{/if}}
+        </div>
+        <div>quantity: {{quantity}}</div>
+        <hr>
+    {{/each}}
+</div>

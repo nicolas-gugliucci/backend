@@ -1,0 +1,35 @@
+<div>
+    {{#each products}}
+        <form class="product-form">
+            <div>
+                <p id="id">Id: {{_id}}</p>
+                <p>Title: {{title}}</p>
+                <p>Description: {{description}}</p>
+                <p>Code: {{code}}</p>
+                <p>Price: {{price}}</p>
+                <p>Status: {{status}}</p>
+                <p>Stock: {{stock}}</p>
+                <p>Category: {{category}}</p>
+                {{#if thumbnails}}
+                    <p>Tumbnails:</p>
+                    {{#each thumbnails}}
+                        <img style="height: 150px;" src="{{this}}"/>
+                    {{/each}}
+                {{/if}}
+            </div>
+            <button type="submit" class="add-to-cart" data-product-id="{{_id}}">Add to cart</button>
+        </form>
+        <hr>
+    {{/each}}
+</div>
+<div>
+    {{#if prevLink}}
+        <a href="{{prevLink}}">Anterior</a>
+    {{/if}}
+    {{#if nextLink}}
+        <a href="{{nextLink}}">Siguiente</a>
+    {{/if}}
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/products.js"></script>

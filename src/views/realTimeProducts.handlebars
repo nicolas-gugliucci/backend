@@ -2,18 +2,18 @@
 <div id="products">
     {{#each products}}
         <div>
-            <p>Id: {{this._id}}</p>
-            <p>Title: {{this.title}}</p>
-            <p>Description: {{this.description}}</p>
-            <p>Code: {{this.code}}</p>
-            <p>Price: {{this.price}}</p>
-            <p>Status: {{this.status}}</p>
-            <p>Stock: {{this.stock}}</p>
-            <p>Category: {{this.category}}</p>
-            {{#if this.thumbnails}}
+            <p>Id: {{_id}}</p>
+            <p>Title: {{title}}</p>
+            <p>Description: {{description}}</p>
+            <p>Code: {{code}}</p>
+            <p>Price: {{price}}</p>
+            <p>Status: {{status}}</p>
+            <p>Stock: {{stock}}</p>
+            <p>Category: {{category}}</p>
+            {{#if thumbnails}}
                 <p>Tumbnails:</p>
-                {{#each this.thumbnails}}
-                    <p>{{this}}</p>
+                {{#each thumbnails}}
+                    <img style="height: 150px;" src="{{this}}"/>
                 {{/each}}
             {{/if}}
         </div>

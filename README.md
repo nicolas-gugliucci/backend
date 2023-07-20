@@ -33,12 +33,26 @@
 - http://localhost:8080/chat 
     **En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real.**
 
+- http://localhost:8080/products
+    **En esta página encontrará el listado de productos cargados a la base de datos con su paginación respectiva.**
+
+- http://localhost:8080/carts/ <id de un cart>
+    **En esta página encontrará el listado de productos en el cart con el id especificado.**
+
 ### Para las request, utilice el siguiente formato:
 
-**El siguiente ejemplo muestra un POST, recuerde que podrá prescindir del campo "thumbnails" si así lo desea.**
+**El siguiente ejemplo muestra un POST de un producto, recuerde que podrá prescindir del campo "thumbnails" si así lo desea.**
 
 ![Postman request example](./public/assets/images/POST_example.png)
 
-**Por último un ejemplo de un PUT, en el cual podrá actualizar tantos campos como considere necesario.**
+**El siguiente es un ejemplo de un PUT de un producto, en el cual podrá actualizar tantos campos como considere necesario.**
 
 ![Postman request example](./public/assets/images/PUT_example.png)
+
+**El siguiente es un ejemplo de un PUT de un cart, en el cual podrá actualizar únicamente el valor quantity.**
+
+![Postman request example](./public/assets/images/PUT_cart_example.png)
+
+**Por último un ejemplo de un PUT de un cart mediante un array de productos.**
+
+![Postman request example](./public/assets/images/PUT_cart_example2.png)

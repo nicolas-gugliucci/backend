@@ -3,7 +3,7 @@ const socket = io()
 socket.on('lista_actualizada', products => {
     const productsDiv = document.getElementById('products');
     productsDiv.innerHTML = ''
-    products.forEach(e => {
+    products.payload.forEach(e => {
         const div_registro = document.createElement('div');
         div_registro.setAttribute("id", `product_${e._id}`);
         div_registro.innerHTML = `
