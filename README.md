@@ -1,4 +1,4 @@
-<h1 align="center">Backend - Primera práctica integradora</h1>
+<h1 align="center">Backend - Segunda preEntrega</h1>
 
 ## 🛠️ Ejecución del proyecto
 
