@@ -1,3 +1,14 @@
+{{#if user}}
+    <header>
+        <div className='userInfo'>
+            <Button className='userIcon'><img style="height: 50px;" src="{{user.img}}" alt="user profile"/></Button>
+            <p className='userWelcome'>Welcome {{user.name}}</p>
+            <p>Rol: {{user.rol}}</p>
+        </div>
+        <button id="logout">Log out</button>
+    </header>
+{{/if}}
+
 <div>
     {{#each products}}
         <form class="product-form">

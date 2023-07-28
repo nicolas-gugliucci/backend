@@ -39,6 +39,7 @@ router.get('/chat', (req, res) => {
 })
 
 router.get('/products', async (req, res) => {
+    if (!req.session?.user) return res.redirect('/login')
     const limit = req.query.limit
     const page = req.query.page
     const sort = req.query.sort
@@ -49,16 +50,33 @@ router.get('/products', async (req, res) => {
         style: 'index.css',
         products: products.payload,
         prevLink: products.prevLink,
-        nextLink: products.nextLink
+        nextLink: products.nextLink,
+        user: req.session.user
     })
 })
 
 router.get('/carts/:cid', async (req, res) => {
+    if (!req.session?.user) return res.redirect('/login')
     const id = req.params.cid
     const productsInCart = await cartsManager.getCartById(id, true)
     res.render('cart', {
         style: 'index.css',
         products: productsInCart.products
+    })
+})
+
+router.get('/register', (req, res) => {
+    res.render('register')
+})
+
+router.get('/login', (req, res) => {
+    res.render('login')
+})
+
+router.get('/profile', (req, res) => {
+    if (!req.session?.user) return res.redirect('/login')
+    res.render('profile',{
+        user: req.session?.user
     })
 })
 

@@ -11,3 +11,15 @@ const addToCartHandler = (event) => {
 addToCartButtons.forEach((button) => {
     button.addEventListener('click', addToCartHandler);
 });
+
+const out = document.getElementById('logout')
+
+out.addEventListener('mouseup', () => {
+    fetch('/api/sessions/logout',{
+        method:'GET'
+    }).then(result=>{
+        if(result.status===200){
+            window.location.replace('/login')
+        }
+    })
+})
