@@ -19,9 +19,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const result = await manager.newCart()
-    if (result === 1) res.send({
+    if (result.error === 1) res.send({
         status: 'Success',
-        message: 'Cart created'
+        message: 'Cart created',
+        payload: result.result
     })
     else errors(res, result)
 })

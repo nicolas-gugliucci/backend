@@ -35,7 +35,7 @@ export default class Carts {
         } catch (error) {
             return { message: error.message, error: error.name }
         }
-        return 1
+        return { error: 1, result }
     }
     async addProductToCart(cid, pid) {
         const manager = new productManager()

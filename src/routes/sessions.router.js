@@ -2,37 +2,10 @@ import { Router } from "express";
 import userModel from "../dao/models/Users.model.js";
 import { uploader } from '../utils/utils.js'
 import crypto from 'crypto'
+import passport from "passport";
+import { isValidPassword } from "../utils/utils.js";
 
 const router = Router()
-
-router.post('/register', uploader.array('img'), async (req, res) => {
-    const {first_name, last_name, email, age, password} = req.body
-    console.log(req.body)
-    console.log(req.files)
-    const exist = await userModel.findOne({email})
-    let img = null
-    if (req.files) {
-        if (req.files.length !== 0) {
-            img = req.files.map(file => file.path)
-            thumbnails = thumbnails.map(e => e.slice(60, undefined))
-        }
-    }
-    if(!img) img = './assets/images/user.png'
-    if(exist) return res.status(400).send({status:'error', error:'The user already exist'})
-    const salt = crypto.randomBytes(128).toString('base64')
-    const cryptedPassword = crypto.createHmac('sha256', salt).update(password).digest('hex')
-    const user= {
-        first_name,
-        last_name,
-        email,
-        age,
-        salt,
-        password: cryptedPassword,
-        img
-    }
-    let result = await userModel.create(user)
-    res.send({status:'success', message:'User registered'})
-})
 
 router.post('/login', async (req, res)=> {
     const {email, password} = req.body
@@ -46,19 +19,27 @@ router.post('/login', async (req, res)=> {
         }
         res.send({status:'success', payload:req.session.user})
     }else{
-
-        const user = await userModel.findOne({email})
-        const cryptedPassword = crypto.createHmac('sha256',user.salt).update(password).digest('hex')
-        
-        if(!user || cryptedPassword !== user?.password) return res.status(400).send({status:'error', error:'Incorrect credentials'})
-        req.session.user={
-            name: `${user.first_name} ${user.last_name}`,
-            email: user.email,
-            age: user.age,
-            img: user.img,
-            rol: user.rol
-        }
-        res.send({status:'success', payload:req.session.user})
+        const user = await userModel.findOne({email:email})
+        if(!user) return res.status(403).send({status:'error', error:'Incorrect credentials'})
+        if(!isValidPassword(user,password)) return res.status(403).send({status:'error', error:'Incorrect credentials'})
+        fetch('http://localhost:8080/api/carts',{
+            method:'POST',
+        }).then(result => {
+            if (result.ok) {
+                return result.json();
+            }
+        }).then(data => {
+            const cid = data.payload._id
+            req.session.user={
+                name: `${user.first_name} ${user.last_name}`,
+                email: user.email,
+                age: user.age,
+                img: user.img,
+                rol: user.rol,
+                cart: cid
+            }
+            res.send({status:'success', payload:req.session.user})
+        })
     }
 })
 
@@ -82,6 +63,35 @@ router.get('/logout', (req, res) =>{
             }else res.send({status:'success', message:'Session destroyed'})
         })
     })
+})
+
+router.post('/register', passport.authenticate('register', {failureRedirect:'/failregister'}), uploader.array('img'),async (req, res) => {
+    res.redirect('/login')
+})
+
+router.get('/github',passport.authenticate('github',{scope:['user:email']}),async(req,res)=>{})
+
+router.get('/githubcallback',passport.authenticate('github',{failureRedirect:'/login'}),async(req,res)=>{
+    let cid = null
+    fetch('http://localhost:8080/api/carts',{
+        method:'POST',
+    }).then(result => {
+        if (result.ok) {
+            return result.json();
+        }
+    }).then(async data => {
+        cid = data.payload._id
+        req.session.user={
+            name: req.user.first_name,
+            email: req.user.email,
+            age: req.user.age,
+            img: req.user.img,
+            cart: cid,
+            rol: req.user.rol
+        }
+        res.redirect('/products')
+    })
+    
 })
 
 export default router

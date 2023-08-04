@@ -1,11 +1,12 @@
 {{#if user}}
     <header>
         <div className='userInfo'>
-            <Button className='userIcon'><img style="height: 50px;" src="{{user.img}}" alt="user profile"/></Button>
+            <Button id='userIcon'><img style="height: 50px;" src="{{user.img}}" alt="user profile"/></Button>
             <p className='userWelcome'>Welcome {{user.name}}</p>
             <p>Rol: {{user.rol}}</p>
+            <button id="logout">Log out</button>
         </div>
-        <button id="logout">Log out</button>
+        <button id="cart" value="{{user.cart}}"><img style="height: 50px;" src="/assets/images/shopping-cart.png" alt="cart"/></button>
     </header>
 {{/if}}
 

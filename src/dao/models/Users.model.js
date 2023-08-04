@@ -7,20 +7,17 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     last_name: {
-        type: String,
-        required: true
+        type: String
     },
     email: {
         type: String,
         required: true
     },
     age: {
-        type: Number,
-        required: true
+        type: Number
     },
     salt: {
-        type: String,
-        required: true
+        type: String
     },
     password: {
         type: String,
@@ -33,6 +30,9 @@ const userSchema = new mongoose.Schema({
     rol: {
         type: String,
         default: 'user'
+    },
+    gitId: {
+        type: String,
     }
 })
 const userModel = mongoose.model(userCollection, userSchema)
