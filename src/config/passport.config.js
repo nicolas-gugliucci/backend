@@ -114,22 +114,10 @@ export const initPassport = () => {
             },
             async ( req, email, password, done ) => {
                 try{
-                    let user = {}
-                    // if(email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-                    //     user ={
-                    //         first_name: 'User Admin',
-                    //         email: 'adminCoder@coder.com',
-                    //         age: '-',
-                    //         img: './assets/images/adminUser.png',
-                    //         role: 'Admin',
-                    //         cart: '64d804010b5c0fbe5bba975c'
-                    //     }
-                    // }else{
-                        user = await userModel.findOne({email:email})
-                        if(!user) return done(null, false, {message:'not found'})
-                        const validatedPassword = await isValidPassword(user, password)
-                        if(!validatedPassword) return done(null, false, {message:'Incorrect credentials'})
-                    //}
+                    const user = await userModel.findOne({email:email})
+                    if(!user) return done(null, false, {message:'not found',user:{email:email,password:password}})
+                    const validatedPassword = await isValidPassword(user, password)
+                    if(!validatedPassword) return done(null, false, {message:'Incorrect credentials'})
                     return done(null, user)
                 }catch(error){
                     return done(error)
