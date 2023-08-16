@@ -16,9 +16,9 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number
     },
-    salt: {
-        type: String
-    },
+    // salt: {
+    //     type: String
+    // },
     password: {
         type: String,
         required: true
@@ -27,9 +27,16 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    rol: {
+    role: {
         type: String,
         default: 'user'
+    },
+    cart:{
+        type: [{
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'carts'
+        }],
+        default: []
     },
     gitId: {
         type: String,

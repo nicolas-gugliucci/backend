@@ -1,16 +1,16 @@
 import express from "express";
 import handlebars from "express-handlebars"
 import { __dirname } from "./utils/utils.js";
-import viewRouter from "./routes/views.router.js"
-import cartRouter from "./routes/carts.router.js";
-import productRouter from "./routes/products.router.js"
+import viewRouter from "./routes/views.routes.js"
+import cartRouter from "./routes/carts.routes.js";
+import productRouter from "./routes/products.routes.js"
 import { socketConnection } from "./utils/socket-io.js";
 import mongoose from 'mongoose'
 import "dotenv/config"
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
-import sessionRouter from './routes/sessions.router.js'
-import { initPassport, initializedPassport} from "./config/passport.config.js";
+import sessionRouter from './routes/sessions.routes.js'
+import { initPassport } from "./config/passport.config.js";
 import passport from "passport";
 
 const app = express()
@@ -42,7 +42,6 @@ app.use(session({
     saveUninitialized: false
 }))
 
-initializedPassport()
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())

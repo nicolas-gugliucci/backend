@@ -20,5 +20,8 @@ form.addEventListener('submit', e =>{
             let errorP = document.getElementById("error")
             errorP.innerHTML = 'User or password incorrect'
         }
-    })
+    }).catch(error => {
+        return done(error)
+    })  
+    
 })
