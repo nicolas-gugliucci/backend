@@ -1,7 +1,12 @@
-import userModel from "../models/Users.model.js";
+import userModel from "../dao/mongoDB/models/users.model.js";
+import { BaseService } from "./base.service.js";
 
-export default class Users{
-    constructor(){}
+
+export default class UserService extends BaseService {
+    constructor(){
+        super(userModel)
+    }
+
     getAll = async() => {
         let users = await userModel.find().populate('carts')
         return users.map(user => user.toObject())

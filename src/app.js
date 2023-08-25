@@ -6,12 +6,12 @@ import cartRouter from "./routes/carts.routes.js";
 import productRouter from "./routes/products.routes.js"
 import { socketConnection } from "./utils/socket-io.js";
 import mongoose from 'mongoose'
-import "dotenv/config"
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import sessionRouter from './routes/sessions.routes.js'
 import { initPassport } from "./config/passport.config.js";
 import passport from "passport";
+import { DATABASE_URL, MONGO_STORE_SECRET } from "./config/config.js";
 
 const app = express()
 
@@ -20,7 +20,7 @@ const PORT = 8080
 mongoose.set('strictQuery', false)
 
 const conection = mongoose.connect(
-    `${process.env.DATABASE_URL}`,
+    `${DATABASE_URL}`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -33,11 +33,11 @@ app.use(express.static(__dirname+'/public'))
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: `${process.env.DATABASE_URL}`,
+        mongoUrl: `${DATABASE_URL}`,
         mongoOptions:{ useNewUrlParser : true , useUnifiedTopology:true},
         ttl: 900
     }),
-    secret:`${process.env.MONGO_STORE_SECRET}`,
+    secret:`${MONGO_STORE_SECRET}`,
     resave:false,
     saveUninitialized: false
 }))

@@ -1,5 +1,5 @@
 import { Server } from 'socket.io'
-import { messageModel } from '../dao/models/messages.js';
+import { messageModel } from '../dao/mongoDB/models/messages.model.js';
 
 let io;
 
@@ -13,7 +13,7 @@ const socketConnection = (server) => {
       }
     })
     socket.on('message', async (data) => {
-      const message = await messageModel.create(data)
+      await messageModel.create(data)
       const messages = await messageModel.find().lean()
       io.emit('messageLogs', messages)
     })

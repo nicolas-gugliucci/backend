@@ -1,11 +1,14 @@
-import { cartModel } from "../models/carts.js"
-import productManager from '../dbManagers/products.js'
-import { sendMessage } from "../../utils/socket-io.js"
+import { cartModel } from "../dao/mongoDB/models/carts.model.js"
+import ProductService from './product.service.js'
+import { sendMessage } from "../utils/socket-io.js"
+import { BaseService } from "./base.service.js"
 
-const manager = new productManager()
+const manager = new ProductService()
 
-export default class Carts {
-    constructor() { }
+export default class CartService extends BaseService {
+    constructor(){
+        super(cartModel)
+    }
 
     async getCarts() {
         let carts
@@ -132,9 +135,6 @@ export default class Carts {
         if (keys.some((key) => !aceptados.includes(key))) return -15
         if (aceptados.some((key) => !keys.includes(key))) return -15
         try {
-            // for (const element in update.payload) {
-            //     await addProductToCart(cid, element._id)
-            // }
             const newProducts = []
             const newArray = update.payload.map((e) => e._id)
             for (let i = 0; i < newArray.length; i++) {

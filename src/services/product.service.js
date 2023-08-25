@@ -1,8 +1,11 @@
-import { productModel } from "../models/products.js"
+import { productModel } from "../dao/mongoDB/models/products.model.js"
+import { BaseService } from "./base.service.js"
 
-export default class Carts {
-    constructor() { }
-
+export default class ProductService extends BaseService {
+    constructor(){
+        super(productModel)
+    }
+  
     async addProduct({ title, description, code, price, stock, category, thumbnails }) {
         if (arguments.length != 1) return -1
         const aceptados = ["title", "description", "code", "price", "stock", "category", "thumbnails"]
@@ -35,7 +38,7 @@ export default class Carts {
         else if (query) filter = { category: query }
         try {
             products = await productModel.paginate(
-                filter, //confirmar que sea esto lo requerido
+                filter, 
                 {
                     limit: limit ? limit : 10,
                     sort: sort ? { price: sort } : {},
@@ -44,7 +47,7 @@ export default class Carts {
                 }
             )
         } catch (error) {
-            if (error.name === "CastError") return -8 //revisar
+            if (error.name === "CastError") return -8
             else return { message: error.message, error: error.name }
         }
         let nextLink = null

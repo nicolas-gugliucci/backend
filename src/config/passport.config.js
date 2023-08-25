@@ -1,8 +1,8 @@
 import passport from "passport";
 import local from "passport-local";
-import userModel from "../dao/models/Users.model.js";
+import userModel from "../dao/mongoDB/models/users.model.js";
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
-
+import { CLIENT_ID, CLIENT_SECRET } from "../config/config.js";
 import GitHubStrategy from 'passport-github2'
 import generarStringAleatorio from "../utils/text.js";
 
@@ -59,8 +59,8 @@ export const initPassport = () => {
         'github',
         new GitHubStrategy(
             {
-                clientID: `${process.env.CLIENT_ID}`,
-                clientSecret: `${process.env.CLIENT_SECRET}`,
+                clientID: `${CLIENT_ID}`,
+                clientSecret: `${CLIENT_SECRET}`,
                 callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
             },
             async (accessToken,refreshToken,profile, done) => {
