@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { uploader } from '../utils/utils.js'
+import { roleAuth } from '../middlewares/role.middleware.js'
 import {
     getAll,
     getproduct,
@@ -12,8 +13,8 @@ const router = Router()
 
 router.get('/', getAll)
 router.get('/:pid', getproduct)
-router.post('/', uploader.array('thumbnails'), createProduct)
-router.put('/:pid', uploader.array('thumbnails'), updateOneProduct)
-router.delete('/:pid', deleteProduct)
+router.post('/', roleAuth('admin'), uploader.array('thumbnails'), createProduct)//admin
+router.put('/:pid', roleAuth('admin'), uploader.array('thumbnails'), updateOneProduct)//admin
+router.delete('/:pid', roleAuth('admin'), deleteProduct)//admin
 
 export default router

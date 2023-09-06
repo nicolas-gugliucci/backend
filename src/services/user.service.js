@@ -1,11 +1,6 @@
 import userModel from "../dao/mongoDB/models/users.model.js";
-import { BaseService } from "./base.service.js";
 
-
-export default class UserService extends BaseService {
-    constructor(){
-        super(userModel)
-    }
+export default class UserService{
 
     getAll = async() => {
         let users = await userModel.find().populate('carts')
@@ -26,4 +21,5 @@ export default class UserService extends BaseService {
         let result = await userModel.updateOne({_id:id},{$set:user})
         return result
     }
+
 }

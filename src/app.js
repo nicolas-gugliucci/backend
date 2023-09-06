@@ -9,9 +9,12 @@ import mongoose from 'mongoose'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import sessionRouter from './routes/sessions.routes.js'
-import { initPassport } from "./config/passport.config.js";
+import { initPassport } from "./middlewares/passport.config.js";
 import passport from "passport";
-import { DATABASE_URL, MONGO_STORE_SECRET } from "./config/config.js";
+import { DATABASE_URL, MONGO_STORE_SECRET, MAIL,MAIL_2, MAIL_PASSWORD } from "./config/config.js";
+import cookieParser from "cookie-parser";
+//import nodemailer from 'nodemailer'
+
 
 const app = express()
 
@@ -39,8 +42,14 @@ app.use(session({
     }),
     secret:`${MONGO_STORE_SECRET}`,
     resave:false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { 
+        httpOnly: false,
+        secure: false 
+    },
 }))
+
+app.use(cookieParser());
 
 initPassport()
 app.use(passport.initialize())
@@ -57,3 +66,32 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/', viewRouter)
 app.use('/api/sessions', sessionRouter)
+
+// const transport = nodemailer.createTransport({
+//     service: 'gmail',
+//     port: 587,
+//     auth: {
+//         user: `${MAIL}`,
+//         pass: `${MAIL_PASSWORD}`
+//     }
+// })
+// app.get('/mail', async (req, res)=> {
+//     try{
+//         // let result = await transport.se
+//         const mailParams = {
+//             from : `${MAIL}`,
+//             to : `${MAIL}, ${MAIL_2}`,
+//             subject : 'Test mail',
+//             html : `<div><h1>Esto es una prueba</h1></div>`,
+//             attachments : [{
+//                 filename: 'Bode.png',
+//                 path: __dirname+ '/public/assets/images/Bode.png',
+//                 cid: 'ffs'
+//             }]
+//         }
+//         const reslut = await transport.sendMail(mailParams)
+//         res.send('Mail enviado')
+//     }catch(error){
+//         console.log(error)
+//     }
+// })

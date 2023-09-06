@@ -1,5 +1,5 @@
 import { Server } from 'socket.io'
-import { messageModel } from '../dao/mongoDB/models/messages.model.js';
+import { messageModel } from '../models/schemas/message.schema.js';
 
 let io;
 

@@ -1,4 +1,5 @@
 import passport from "passport";
+import { userDTO } from "../models/dtos/user.dto.js";
 
 class sessionController {
     logout (req, res) {
@@ -89,7 +90,10 @@ class sessionController {
    
     getCurrent (req, res) {
         const user = req.session.user
-        res.send({status:'success', payload: user})
+        console.log(req.session)
+        const DTO = new userDTO(user)
+        const safe_user_info = DTO
+        res.send({status:'success', payload: safe_user_info})
     }
 }
 

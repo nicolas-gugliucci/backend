@@ -1,55 +1,40 @@
-import { productModel } from "../dao/mongoDB/models/products.model.js"
-import { BaseService } from "./base.service.js"
+import ProductDAO from "../models/daos/mongoDB/products.dao.js"
 
-export default class ProductService extends BaseService {
-    constructor(){
-        super(productModel)
-    }
-  
-    async addProduct({ title, description, code, price, stock, category, thumbnails }) {
-        if (arguments.length != 1) return -1
+const dao = new ProductDAO()
+
+export default class ProductService{
+    async addProduct(product, files) {
+        if (files) {
+            if (files.length !== 0) {
+                let thumbnails = files.map(file => file.path)
+                thumbnails = thumbnails.map(e => e.slice(60, undefined))
+                product = { ...product, thumbnails }
+            }
+        }
+        const { title, description, code, price, stock, category, thumbnails } = product
+        if (arguments.length != 2) return -1
         const aceptados = ["title", "description", "code", "price", "stock", "category", "thumbnails"]
-        if (Object.keys(arguments[0]).some((key) => !aceptados.includes(key))) return -2
-        if (Object.values(arguments[0]).some((value) => value.length === 0)) return -3
+        if (Object.keys(product).some((key) => !aceptados.includes(key))) return -2
+        if (Object.values(product).some((value) => value.length === 0)) return -3
         if (!isNaN(title) || !isNaN(description) || !isNaN(category)) return -5
         if (thumbnails && !Array.isArray(thumbnails)) return -6
-        let product = {
-            title: title,
-            description: description,
-            code: code,
-            price: price,
-            status: true,
-            stock: stock,
-            category: category
-        }
-        if (thumbnails) product = { ...product, thumbnails }
-        try {
-            await productModel.create(product)
-        } catch (error) {
-            if (error.code === 11000) return -7
-            else return { message: error.message, error: error.name }
-        }
-        return 1
+        const result = await dao.addProduct(product)
+        return result
     }
     async getProducts(limit, page, sort, query, currentUrl) {
         let products
         let filter = {}
         if (query && (query === "true") || (query === "false")) filter = { status: query }
         else if (query) filter = { category: query }
-        try {
-            products = await productModel.paginate(
-                filter, 
-                {
-                    limit: limit ? limit : 10,
-                    sort: sort ? { price: sort } : {},
-                    page: page ? page : 1,
-                    lean: true
-                }
-            )
-        } catch (error) {
-            if (error.name === "CastError") return -8
-            else return { message: error.message, error: error.name }
-        }
+        const options = 
+            { 
+                limit: limit ? limit : 10,
+                sort: sort ? { price: sort } : {},
+                page: page ? page : 1,
+                lean: true
+            }
+        products = await dao.getProducts(filter, options)
+        if (!products?.hasNextPage) return products
         let nextLink = null
         let prevLink = null
         if (products.hasNextPage) {
@@ -79,17 +64,17 @@ export default class ProductService extends BaseService {
         return products
     }
     async getProductById(id) {
-        let product
-        try {
-            product = await productModel.findOne({ _id: id }).lean()
-            if (!product) return -4
-        } catch (error) {
-            if (error.reason?.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
-            else return { message: error.message, error: error.name }
-        }
+        const product = await dao.getProductById(id)
         return product
     }
-    async updateProduct(id, update) {
+    async updateProduct(id, update, files) {
+        if (files) {
+            if (files.length !== 0) {
+                let thumbnails = files.map(file => file.path)
+                thumbnails = thumbnails.map(e => e.slice(60, undefined))
+                update = { ...update, thumbnails }
+            }
+        }
         if (update.length === 0) return -5
         const aceptados = ["title", "description", "code", "price", "stock", "category", "thumbnails", "status"]
         const keys = Object.keys(update)
@@ -99,24 +84,11 @@ export default class ProductService extends BaseService {
             return -5
         }
         if (keys.includes('thumbnails') && !Array.isArray(update.thumbnails)) return -6
-        try {
-            const product = await productModel.updateOne({ _id: { $eq: id } }, update)
-            if (!product.matchedCount) return -4
-        } catch (error) {
-            if (error.reason?.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
-            else if (error.code === 11000) return -7
-            else return { message: error.message, error: error.name }
-        }
-        return 1
+        const result = await dao.updateProduct(id, update)
+        return result
     }
     async deleteProduct(id) {
-        try {
-            const product = await productModel.deleteOne({ _id: id })
-            if (!product.deletedCount) return -4
-        } catch (error) {
-            if (error.reason?.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -4
-            else return { message: error.message, error: error.name }
-        }
-        return 1
+        const result = await dao.deleteProduct(id)
+        return result
     }
 }
