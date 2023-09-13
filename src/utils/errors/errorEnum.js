@@ -1,0 +1,10 @@
+const EnumErrors = {
+    NOT_FOUND_ERROR: -1,
+    INVALID_TYPE_ERROR: -2,
+    INVALID_STRUCTURE_ERROR: -3,
+    INVALID_QUERY_ERROR: -4,
+    TOO_MANY_ARGUMENTS_ERROR: -5,
+    REPETED_CODE_ERROR: -6,
+    UNNECESSARY_ACTION_ERROR: -7
+}
+export default EnumErrors

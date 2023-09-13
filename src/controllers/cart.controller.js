@@ -1,7 +1,7 @@
 import CartService from '../services/cart.service.js'
 import ProductService from '../services/product.service.js'
 import TicketService from '../services/ticket.service.js'
-import { errors } from '../utils/errorResponse.js'
+import { errors } from '../utils/errors/errorResponse.js'
 
 const service = new CartService()
 const prod_serv = new ProductService()

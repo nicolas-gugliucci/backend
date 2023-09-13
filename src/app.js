@@ -13,6 +13,7 @@ import { initPassport } from "./middlewares/passport.config.js";
 import passport from "passport";
 import { DATABASE_URL, MONGO_STORE_SECRET, MAIL,MAIL_2, MAIL_PASSWORD } from "./config/config.js";
 import cookieParser from "cookie-parser";
+import errorMeddleware from './middlewares/errors.js'
 //import nodemailer from 'nodemailer'
 
 
@@ -54,7 +55,6 @@ app.use(cookieParser());
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
-
 const httpserver = app.listen(PORT, () => console.log('Server arriba'))
 socketConnection(httpserver)
 
@@ -66,6 +66,8 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/', viewRouter)
 app.use('/api/sessions', sessionRouter)
+app.use(errorMeddleware)
+
 
 // const transport = nodemailer.createTransport({
 //     service: 'gmail',

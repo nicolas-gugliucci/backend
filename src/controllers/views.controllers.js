@@ -1,5 +1,6 @@
 import ProductService from '../services/product.service.js'
 import CartService from '../services/cart.service.js'
+import { mockProducts } from '../utils/mocks.utils.js'
 
 const manager = new ProductService()
 const cartsManager = new CartService()
@@ -78,6 +79,11 @@ class viewsController {
             user: req.session?.user
         })
     }
+
+    mockingproducts (req, res) {
+        const products = Array.from({length:100}, () => mockProducts())
+        res.json({success:true, payload:products})
+    }
 }
 
 const controller = new viewsController()
@@ -90,7 +96,8 @@ const {
     cart,
     register,
     login,
-    profile
+    profile,
+    mockingproducts
 } = controller
 
 export {
@@ -101,5 +108,6 @@ export {
     cart,
     register,
     login,
-    profile
+    profile,
+    mockingproducts
 }

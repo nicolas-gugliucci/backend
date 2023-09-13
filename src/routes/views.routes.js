@@ -8,7 +8,8 @@ import {
     cart,
     register,
     login,
-    profile
+    profile,
+    mockingproducts
 } from '../controllers/views.controllers.js'
 
 const router = Router()
@@ -21,5 +22,6 @@ router.get('/carts/:cid', cart)
 router.get('/register', register)
 router.get('/login', login)
 router.get('/profile', profile)
+router.get('/mockingproducts', mockingproducts)
 
 export default router

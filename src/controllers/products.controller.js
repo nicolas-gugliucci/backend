@@ -1,6 +1,6 @@
 import ProductService from '../services/product.service.js'
 import { sendMessage } from '../utils/socket-io.js'
-import { errors } from '../utils/errorResponse.js'
+import { errors } from '../utils/errors/errorResponse.js'
 
 const service = new ProductService()
 
