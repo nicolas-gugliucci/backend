@@ -10,7 +10,7 @@ const ticket_serv = new TicketService()
 class cartController{
     async getAll (req, res) {
         const carts = await service.getCarts()
-        if (carts?.error) errors(res, carts, null, id)
+        if (carts?.error) errors(req, res, carts, null, id)
         else res.send({
             status: 'success',
             payload: carts
@@ -24,13 +24,13 @@ class cartController{
             message: 'Cart created',
             payload: result.result
         })
-        else errors(res, result)
+        else errors(req, res, result)
     }
 
     async getCart (req, res) {
         const id = req.params.cid
         const productsInCart = await service.getCartById(id, true)
-        if (productsInCart === -10 || productsInCart?.error) errors(res, productsInCart, null, id)
+        if (productsInCart === -10 || productsInCart?.error) errors(req, res, productsInCart, null, id)
         else res.send({
             status: 'success',
             payload: productsInCart.products
@@ -45,7 +45,7 @@ class cartController{
             status: 'Success',
             message: 'Product added to cart'
         })
-        else errors(res, result, pid, cid)
+        else errors(req, res, result, pid, cid)
     }
 
     async deleteProduct (req, res) {
@@ -56,7 +56,7 @@ class cartController{
             status: 'Success',
             message: 'Product deleted from cart'
         })
-        else errors(res, result, pid, cid)
+        else errors(req, res, result, pid, cid)
     }
 
     async deleteAll (req, res) {
@@ -66,7 +66,7 @@ class cartController{
             status: 'Success',
             message: 'Cart emptied'
         })
-        else errors(res, result, null, cid)
+        else errors(req, res, result, null, cid)
     }
 
     async updateCart (req, res) {
@@ -79,7 +79,7 @@ class cartController{
             status: 'Success',
             message: 'Cart updated'
         })
-        else errors(res, result, null, cid)
+        else errors(req, res, result, null, cid)
     }
 
     async updateProduct (req, res) {
@@ -87,7 +87,7 @@ class cartController{
         if (Object.keys(req.body).length !== 1 || !quantity) return errors(res, -11)
         const cid = req.params.cid
         const pid = req.params.pid
-        if (!quantity) return errors(res, -11)
+        if (!quantity) return errors(req, res, -11)
         const result = await service.updateQuantity(cid, pid, quantity)
         if (result === 1) res.send({
             status: 'Success',
@@ -110,7 +110,7 @@ class cartController{
                 const result = await prod_serv.updateProduct(pid,{stock:stock-quantity})
                 if (result !== 1) {
                     products_not_processed.push(pid)
-                    errors(res, result, pid, cid)
+                    errors(req, res, result, pid, cid)
                 }
                 products_processed.push(pid)
                 amount += product.price*product.quantity
@@ -126,7 +126,7 @@ class cartController{
         products_processed.forEach(async (pid) => {
             const result = await service.deleteProductFromCart(pid,cid)
             if (result !== 1) {
-                errors(res, result, pid, cid)
+                errors(req, res, result, pid, cid)
             }
         });
         return array_de_prods_no_comprados

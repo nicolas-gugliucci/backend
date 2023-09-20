@@ -3,6 +3,7 @@ import handlebars from "express-handlebars"
 import { __dirname } from "./utils/utils.js";
 import viewRouter from "./routes/views.routes.js"
 import cartRouter from "./routes/carts.routes.js";
+import testRouter from "./routes/tests.routes.js";
 import productRouter from "./routes/products.routes.js"
 import { socketConnection } from "./utils/socket-io.js";
 import mongoose from 'mongoose'
@@ -11,15 +12,16 @@ import MongoStore from 'connect-mongo'
 import sessionRouter from './routes/sessions.routes.js'
 import { initPassport } from "./middlewares/passport.config.js";
 import passport from "passport";
-import { DATABASE_URL, MONGO_STORE_SECRET, MAIL,MAIL_2, MAIL_PASSWORD } from "./config/config.js";
+import { DATABASE_URL, MONGO_STORE_SECRET, PORT_ENV } from "./config/config.js";
 import cookieParser from "cookie-parser";
 import errorMeddleware from './middlewares/errors.js'
+import { addLogger } from "./utils/logger.js";
 //import nodemailer from 'nodemailer'
 
 
 const app = express()
 
-const PORT = 8080
+const PORT = PORT_ENV
 
 mongoose.set('strictQuery', false)
 
@@ -51,6 +53,7 @@ app.use(session({
 }))
 
 app.use(cookieParser());
+app.use(addLogger)
 
 initPassport()
 app.use(passport.initialize())
@@ -66,6 +69,7 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/', viewRouter)
 app.use('/api/sessions', sessionRouter)
+app.use('/api/test', testRouter)
 app.use(errorMeddleware)
 
 

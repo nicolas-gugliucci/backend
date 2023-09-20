@@ -12,7 +12,7 @@ class productController{
         const query = req.query.query
         const currentUrl = `http://localhost:8080${req.originalUrl}`
         let products = await service.getProducts(limit, page, sort, query, currentUrl)
-        if (products === -8 || products?.error) errors(res, products)
+        if (products === -8 || products?.error) errors(req, res, products)
         else res.send({
             status: 'success',
             ...products
@@ -22,7 +22,7 @@ class productController{
     async getproduct (req, res) {
         const id = req.params.pid
         const productRequested = await service.getProductById(id)
-        if (productRequested === -4 || productRequested?.error) errors(res, productRequested, id)
+        if (productRequested === -4 || productRequested?.error) errors(req, res, productRequested, id)
         else res.send({
             status: 'success',
             payload: productRequested
@@ -40,7 +40,7 @@ class productController{
                 status: 'Success',
                 message: 'Product added'
             })
-        } else errors(res, result, null, null, product.code)
+        } else errors(req, res, result, null, null, product.code)
     }
 
     async updateOneProduct (req, res) {
@@ -56,7 +56,7 @@ class productController{
                 status: 'Success',
                 message: 'Product updated'
             })
-        } else errors(res, result, id, null, newData.code)
+        } else errors(req, res, result, id, null, newData.code)
     }
 
     async deleteProduct (req, res) {
@@ -69,7 +69,7 @@ class productController{
                 status: 'Success',
                 message: 'Product deleted'
             })
-        } else errors(res, result, id)
+        } else errors(req, res, result, id)
     }
 }
 

@@ -1,7 +1,10 @@
 import EnumErrors from '../utils/errors/errorEnum.js'
 
 const errorMeddleware = (error, req, res, next) => {
-    console.log(error.cause)
+    req.logger.error(
+        `${error.name} - ${error.cause}
+    Trying to ${req.method} in ${req.url} - ${new Date().toLocaleTimeString()}`
+    );
     switch (error.code) {
         case EnumErrors.INVALID_QUERY_ERROR:
             res.send({
