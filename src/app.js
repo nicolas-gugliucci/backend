@@ -16,7 +16,6 @@ import { DATABASE_URL, MONGO_STORE_SECRET, PORT_ENV } from "./config/config.js";
 import cookieParser from "cookie-parser";
 import errorMeddleware from './middlewares/errors.js'
 import { addLogger } from "./utils/logger.js";
-//import nodemailer from 'nodemailer'
 
 
 const app = express()
@@ -72,32 +71,3 @@ app.use('/api/sessions', sessionRouter)
 app.use('/api/test', testRouter)
 app.use(errorMeddleware)
 
-
-// const transport = nodemailer.createTransport({
-//     service: 'gmail',
-//     port: 587,
-//     auth: {
-//         user: `${MAIL}`,
-//         pass: `${MAIL_PASSWORD}`
-//     }
-// })
-// app.get('/mail', async (req, res)=> {
-//     try{
-//         // let result = await transport.se
-//         const mailParams = {
-//             from : `${MAIL}`,
-//             to : `${MAIL}, ${MAIL_2}`,
-//             subject : 'Test mail',
-//             html : `<div><h1>Esto es una prueba</h1></div>`,
-//             attachments : [{
-//                 filename: 'Bode.png',
-//                 path: __dirname+ '/public/assets/images/Bode.png',
-//                 cid: 'ffs'
-//             }]
-//         }
-//         const reslut = await transport.sendMail(mailParams)
-//         res.send('Mail enviado')
-//     }catch(error){
-//         console.log(error)
-//     }
-// })

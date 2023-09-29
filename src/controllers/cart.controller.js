@@ -40,6 +40,9 @@ class cartController{
     async addToCart (req, res) {
         const cid = req.params.cid
         const pid = req.params.pid
+
+        if (req.session?.user?.role==='premium' && req.session.user.email===(await prod_serv.getProductById(id)).owner) return errors(req, res, -19)
+        
         const result = await service.addProductToCart(cid, pid)
         if (result === 1) res.send({
             status: 'Success',

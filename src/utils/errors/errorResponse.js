@@ -2,7 +2,7 @@ import errorMeddleware from "../../middlewares/errors.js";
 import customError from "./customError.js";
 import EnumErrors from "./errorEnum.js";
 
-export const errors = (req, res, result, pid, cid, code) => {
+export const errors = (req, res, result, pid, cid, code, email) => {
     switch (result) {
         case -1:
             try {
@@ -179,6 +179,54 @@ export const errors = (req, res, result, pid, cid, code) => {
                     cause: undefined,
                     message: 'Make sure you have all the necessary camps in your request',
                     code: EnumErrors.INVALID_STRUCTURE_ERROR,
+                })
+            } catch (error) {
+                errorMeddleware(error, req, res)
+            }
+            break;
+        case -16:
+            try {
+                customError.createError({
+                    name: "Not found",
+                    cause: `There is no user registered with tha email: ${email}`,
+                    message: 'Invalid ID',
+                    code: EnumErrors.NOT_FOUND_ERROR,
+                })
+            } catch (error) {
+                errorMeddleware(error, req, res)
+            }
+            break;
+        case -17:
+            try {
+                customError.createError({
+                    name: "Unnecessary action",
+                    cause: `The password is the same`,
+                    message: 'You are trying to change your password with the same password you already have',
+                    code: EnumErrors.UNNECESSARY_ACTION_ERROR,
+                })
+            } catch (error) {
+                errorMeddleware(error, req, res)
+            }
+            break;
+        case -18:
+            try {
+                customError.createError({
+                    name: "Unauthorized",
+                    cause: `You are trying to delete a product created by another one`,
+                    message: 'You can only delete your own products',
+                    code: EnumErrors.UNAUTHORIZED_ACTION_ERROR,
+                })
+            } catch (error) {
+                errorMeddleware(error, req, res)
+            }
+            break;
+        case -19:
+            try {
+                customError.createError({
+                    name: "Unauthorized",
+                    cause: `You are trying to buy a product created by you`,
+                    message: 'You can only buy products created by someone else',
+                    code: EnumErrors.UNAUTHORIZED_ACTION_ERROR,
                 })
             } catch (error) {
                 errorMeddleware(error, req, res)

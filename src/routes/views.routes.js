@@ -1,5 +1,6 @@
 import {Router} from "express";
 import { roleAuth } from "../middlewares/role.middleware.js";
+import { expiredLink } from "../middlewares/resetPassword.middleware.js";
 import {
     home,
     realTimeProducts,
@@ -9,19 +10,23 @@ import {
     register,
     login,
     profile,
-    mockingproducts
+    mockingproducts,
+    resetPassword,
+    startResetPassword
 } from '../controllers/views.controllers.js'
 
 const router = Router()
 
 router.get('/', home)
 router.get('/realtimeproducts', realTimeProducts)
-router.get('/chat', roleAuth('user'), chat)//user
+router.get('/chat', roleAuth(['user','premium']), chat)//user||premium
 router.get('/products', products)
 router.get('/carts/:cid', cart)
 router.get('/register', register)
 router.get('/login', login)
 router.get('/profile', profile)
 router.get('/mockingproducts', mockingproducts)
+router.get('/resetPassword', expiredLink(), resetPassword)
+router.get('/startresetPassword', startResetPassword)
 
 export default router

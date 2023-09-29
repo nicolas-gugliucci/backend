@@ -1,24 +1,26 @@
-import userModel from "../dao/mongoDB/models/users.model.js";
+import userDAO from "../models/daos/mongoDB/users.dao.js"
+
+const dao = new userDAO()
 
 export default class UserService{
 
     getAll = async() => {
-        let users = await userModel.find().populate('carts')
+        const users = await dao.getAll()
         return users.map(user => user.toObject())
     }
     saveUser = async(user)=>{
-        let result = await userModel.create(user)
+        const result = await dao.saveUser(user)
         return result
     }
 
     getById = async (param) => {
-        let result = await userModel.findOne(param).populate('carts').lean()
+        const result = await dao.getById(param)
         return result
     }
 
     updateUser = async (id, user) => {
         delete user._id
-        let result = await userModel.updateOne({_id:id},{$set:user})
+        const result = await dao.updateUser(id, user)
         return result
     }
 

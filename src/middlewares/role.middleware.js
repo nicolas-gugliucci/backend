@@ -1,25 +1,10 @@
 export const roleAuth = (admited) => {
     return async (req, res, next) => {
         try {
-            const response = await fetch('http://localhost:8080/api/sessions/current', {
-                method: 'GET',
-                credentials: 'include',
-                withCredentials: true
-            });
-            
-            if (!response.ok) {
-                throw new Error('Failed to fetch current session data');
-            }
-
-            const data = await response.json();
-            console.log(data)
-            const role = data.payload.role;
-
-            if (role === admited) {
-                console.log('Authorized');
+            const role = req.session.user.role;
+            if (admited.some((admitedRole) => admitedRole === role)) {
                 next();
             } else {
-                console.log('Unauthorized');
                 res.status(403).send('Unauthorized');
             }
         } catch (error) {

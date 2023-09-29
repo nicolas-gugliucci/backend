@@ -1,6 +1,7 @@
 import ProductService from '../services/product.service.js'
 import { sendMessage } from '../utils/socket-io.js'
 import { errors } from '../utils/errors/errorResponse.js'
+import { PORT_ENV } from '../config/config.js'
 
 const service = new ProductService()
 
@@ -10,7 +11,7 @@ class productController{
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:8080${req.originalUrl}`
+        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
         let products = await service.getProducts(limit, page, sort, query, currentUrl)
         if (products === -8 || products?.error) errors(req, res, products)
         else res.send({
@@ -32,6 +33,9 @@ class productController{
     async createProduct (req, res) {
         let product = req.body
         let files = req.files
+        
+        if (req.session?.user?.role==='premium') product = {...product, owner: req.session.user.email}
+
         const result = await service.addProduct(product, files)
         if (result === 1) {
             const products = await service.getProducts()
@@ -61,6 +65,9 @@ class productController{
 
     async deleteProduct (req, res) {
         const id = req.params.pid
+
+        if (req.session?.user?.role==='premium' && req.session.user.email!==(await service.getProductById(id)).owner) return errors(req, res, -18)
+        
         const result = await service.deleteProduct(id)
         if (result === 1) {
             const products = await service.getProducts()

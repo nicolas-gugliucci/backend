@@ -8,8 +8,12 @@ import {
     failedLogin,
     failedRegister,
     githubcallback,
-    getCurrent
+    getCurrent,
+    startChangePassword,
+    resetPassword,
+    changeRole
 } from '../controllers/session.controller.js'
+import { roleAuth } from "../middlewares/role.middleware.js";
 
 const router = Router()
 
@@ -47,5 +51,8 @@ router.get(
     githubcallback
 )
 router.get('/current', getCurrent)
+router.post('/startChangePassword', startChangePassword)
+router.post('/resetPassword', resetPassword)
+router.get('/premium/:uid', roleAuth(['user','premium']), changeRole)//user||premium
 
 export default router

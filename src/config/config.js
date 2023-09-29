@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import params from './params.js'
+import nodemailer from 'nodemailer'
 
 const environment = (params.mode)
 
@@ -13,8 +14,17 @@ const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 const PORT_ENV = process.env.PORT
 const LOGGER_LEVEL = process.env.LOGGER_LEVEL
-// const MAIL_PASSWORD = process.env.MAIL_PASSWORD
-// const MAIL = process.env.MAIL
-// const MAIL_2 = process.env.MAIL_2
+const MAIL_PASSWORD = process.env.MAIL_PASSWORD
+const MAIL = process.env.MAIL
 
-export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment}// MAIL_PASSWORD, MAIL, MAIL_2}
+const transport = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: `${MAIL}`,
+        pass: `${MAIL_PASSWORD}`
+    }
+})
+
+
+export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL}

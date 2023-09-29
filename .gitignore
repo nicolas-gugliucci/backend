@@ -1,3 +1,6 @@
 node_modules
 Clase
 .env
+.env.production
+.env.development
+errors.log

@@ -7,19 +7,19 @@ const errorMeddleware = (error, req, res, next) => {
     );
     switch (error.code) {
         case EnumErrors.INVALID_QUERY_ERROR:
-            res.send({
+            res.status(400).send({
                 status: "Error",
                 error: error.name
             })
             break;
         case EnumErrors.INVALID_STRUCTURE_ERROR:
-            res.send({
+            res.status(400).send({
                 status: "Error",
                 error: error.name
             })
             break;
         case EnumErrors.INVALID_TYPE_ERROR:
-            res.send({
+            res.status(400).send({
                 status: "Error",
                 error: error.name
             })
@@ -31,25 +31,31 @@ const errorMeddleware = (error, req, res, next) => {
             })
             break;
         case EnumErrors.REPETED_CODE_ERROR:
-            res.send({
+            res.status(400).send({
                 status: "Error",
                 error: error.name
             })
             break;
         case EnumErrors.TOO_MANY_ARGUMENTS_ERROR:
-            res.send({
+            res.status(400).send({
                 status: "Error",
                 error: error.name
             })
             break;
         case EnumErrors.UNNECESSARY_ACTION_ERROR:
-            res.send({
+            res.status(400).send({
+                status: "Error",
+                error: error.name
+            })
+            break;
+        case EnumErrors.UNAUTHORIZED_ACTION_ERROR:
+            res.status(403).send({
                 status: "Error",
                 error: error.name
             })
             break;
         default:
-            res.send({
+            res.status(400).send({
                 status: "Error",
                 error: 'Unhandled error',
             })

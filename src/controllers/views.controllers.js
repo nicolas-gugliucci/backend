@@ -84,6 +84,14 @@ class viewsController {
         const products = Array.from({length:100}, () => mockProducts())
         res.json({success:true, payload:products})
     }
+
+    resetPassword (req, res) {
+        res.render('resetPassword')
+    }
+
+    startResetPassword (req, res) {
+        res.render('startResetPassword')
+    }
 }
 
 const controller = new viewsController()
@@ -97,7 +105,9 @@ const {
     register,
     login,
     profile,
-    mockingproducts
+    mockingproducts,
+    resetPassword,
+    startResetPassword
 } = controller
 
 export {
@@ -109,5 +119,7 @@ export {
     register,
     login,
     profile,
-    mockingproducts
+    mockingproducts,
+    resetPassword,
+    startResetPassword
 }
