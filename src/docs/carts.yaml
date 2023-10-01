@@ -1,0 +1,699 @@
+# router.post('/:cid/purchase', roleAuth(['user','premium']), purchase)//user||premium
+paths:
+  /api/carts:
+    get:
+      summary: Provide you all carts registered
+      description: >
+        It is restricted by role information: only for **admin**
+      tags:
+        - Carts
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: An array of carts is returned
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  payload: 
+                    type: array
+                    items:
+                      $ref: '#components/schemas/cart'
+        "403":
+          description: Only "admin" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+    post:
+      summary: >
+        Creates a new cart
+      tags:
+        - Carts
+      responses:
+        "201":
+          description: Cart created
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product added
+                  payload:
+                    $ref: '#components/schemas/cart'
+        "500":
+          description: Unespected system error
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: 
+  /api/carts/{cid}:
+    get:
+      summary: Provide you the products in the cart with the specified id
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart
+      responses:
+        "200":
+          description: The requested cart is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          $ref: '#/components/schemas/product'
+                        quantity:
+                          type: integer
+                          example: 5
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+    put:
+      summary: >
+        Updates all properties of the cart with the specified id
+      description: > 
+        It is restricted by role information: only for **user** or **premium**
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart to update
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                status: 
+                  type: string
+                  enum: 
+                    - 'success'
+                prevLink:
+                  type: string
+                  example: null
+                nextLink:
+                  type: string
+                  example: http://localhost:<PORT>/api/products?limit=5&page=2
+                totalPages:
+                  type: integer
+                  example: 2
+                page:
+                  type: integer
+                  example: 1
+                  minimum: 1
+                hasPrevPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: true
+                prevPage:
+                  type: Integer
+                  example: null
+                nextPage:
+                  type: integer
+                  example: 2
+                payload:
+                  type: array
+                  items:
+                    $ref: '#components/schemas/product'
+              required:
+                - status
+                - prevLink 
+                - nextLink 
+                - totalPages 
+                - page 
+                - hasPrevPage
+                - hasNextPage
+                - prevPage
+                - nextPage
+                - payload
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Cart updated
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Cart updated
+        "400":
+          description: Error caused by bad user request
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Invalid structure
+        "403":
+          description: Only "user" or "premium" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+    delete:
+      summary: >
+        Deletes all products in the cart with the specified id
+      description: > 
+        It is restricted by role information: only for **user** or **premium**
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart to delete
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Cart emptied
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Cart emptied
+        "403":
+          description: Only "user" or "premium" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: >
+        Adds one item of the product with the specified pid into the cart with the specified cid
+      description: > 
+        It is restricted by role information: only for **user**, or **premium** if they are not the owner of the product
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart
+        - in: path
+          required: true
+          name: pid
+          schema:
+            type: string
+          description: Id of the product
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Product added to cart
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product added to cart
+                  payload:
+                    $ref: '#components/schemas/cart'
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+        "500":
+          description: Unespected system error
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: 
+    put:
+      summary: >
+        Updates the quantity of the product with the specified pid into the cart with the specified cid
+      description: > 
+        It is restricted by role information: only for **user** or **premium**
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart
+        - in: path
+          required: true
+          name: pid
+          schema:
+            type: string
+          description: Id of the product
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  minimum: 1
+                  example: 6
+              required:
+                - quantity
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Quantity of the product updated in cart
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product updated in cart
+        "400":
+          description: Error caused by bad user request
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Invalid structure
+        "403":
+          description: Only "user" or "premium" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+    delete:
+      summary: >
+        Deletes the product with the specified pid from the cart with the specified cid
+      description: > 
+        It is restricted by role information: only for **user** or **premium**
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart
+        - in: path
+          required: true
+          name: pid
+          schema:
+            type: string
+          description: Id of the product
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Product deleted from cart
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product deleted from cart
+        "403":
+          description: Only "user" or "premium" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+  /api/carts/{cid}/purchase:
+    post:
+      summary: >
+        Purchases the order and generates the ticket
+      description: >
+        It is restricted by role information: only for **user** or **premium**
+        
+        
+        It would process as many as possible products:
+          - If the stock product could not fulfill the order, the product would not be processed and would not be deleted from the cart.
+          - If the product is processed successfuly it would be deleted from the cart and would appear in the final ticket generated.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          required: true
+          name: cid
+          schema:
+            type: string
+          description: Id of the cart
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: The ticket generated, if some products could not be processed, these will appear in the "not_processed" property.
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  ticket: 
+                    $ref: '#/components/schemas/ticket'
+                  not_precessed: 
+                    type: array
+                    example: 
+                      - ObjectId('86j0555408o94d843c10d7y6')
+                      - ObjectId('33c0690704v04d868c10d1d3')
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+        "500":
+          description: Unespected system error
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: 
+
+components:
+  schemas:
+    cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo id atogenerated
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                oneOf:
+                  - type: ObjectId
+                    description: Id of the cart
+                  - $ref: '#components/schemas/product'
+                    description: Populate product
+              quantity:
+                type: integer
+                description: Quantity of the product in cart
+      example:
+        _id: ObjectId('64b0690704v04d868c10d1d2')
+        products: [{
+          _id: ObjectId('96b0695074v04d868c10d1f9'),
+          quantity: 3
+        }]
+    product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo id atogenerated
+        title:
+          type: string
+          description: Title of the product
+        description:
+          type: string
+          description: Description of the product
+        code:
+          type: string
+          description: Unique code of the product
+          unique: true
+        price:
+          type: integer
+          description: Price of the product
+        status:
+          type: boolean
+          description: Status of the product
+          default: true
+        stock:
+          type: integer
+          description: Stock of the product
+        category:
+          type: string
+          description: Category of the product
+        thumbnails:
+          type: array
+          description: Images of the product
+          default: undefined
+        owner:
+          type: string
+          description: E-mail of the owner of the product
+          default: "admin"
+      required:
+                - title
+                - description 
+                - code 
+                - price 
+                - stock 
+                - category 
+      example:
+        _id: ObjectId('64b0690704v04d868c10d1d2')
+        title: Guitar
+        description: Half-Sized Acoustic Guitar
+        code: AAB058
+        price: 599
+        status: true
+        stock: 20
+        category: music
+        thumbnails: [\assets\images\image_1.png,\assets\images\image_2.jpng]
+        owner: mail@example.com
+    ticket:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo id atogenerated
+        code:
+          type: integer
+          unique: true
+          description: Unique code
+        purchase_datetime:
+          type: Date
+          description: Date of the purchase
+        amount:
+          type: integer
+          description: Final amount of the order
+          unique: true
+        purchaser:
+          type: string
+          description: User email
+      required:
+                - code
+                - purchase_datetime 
+                - amount 
+                - purchaser 
+      example:
+        _id: ObjectId('64b0690704v04d868c10d1d2')
+        code: 7538
+        purchase_datetime: 2023-10-01T17:13:17.619Z
+        amount: 3499
+        purchaser: email@example.com
+  securitySchemes:
+    # cookieSessionAuth:
+    #   type: apiKey
+    #   in: header
+    #   name: session  # cookie name
+    roleAuth:
+      type: http
+      scheme: bearer

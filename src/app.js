@@ -16,7 +16,26 @@ import { DATABASE_URL, MONGO_STORE_SECRET, PORT_ENV } from "./config/config.js";
 import cookieParser from "cookie-parser";
 import errorMeddleware from './middlewares/errors.js'
 import { addLogger } from "./utils/logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUIExpress from 'swagger-ui-express'
 
+const swaggerOptions={
+    definition:{
+        openapi: '3.0.0',
+        info:{
+            title:'CoderHouse final project',
+            description:'A backend proyect performing an E-commerce',
+            version: '1.0.0',
+            contact:{
+                name:'Nicolás Gugliucci',
+                url:'http://www.linkedin.com/in/nicolás-gugliucci-nasta',
+            }
+        }
+    },
+    apis: [`${__dirname}/src/docs/**/*.yaml`]
+}
+
+const spec = swaggerJSDoc(swaggerOptions)
 
 const app = express()
 
@@ -57,6 +76,9 @@ app.use(addLogger)
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use('/apidocs',swaggerUIExpress.serve,swaggerUIExpress.setup(spec))
+
 const httpserver = app.listen(PORT, () => console.log('Server arriba'))
 socketConnection(httpserver)
 

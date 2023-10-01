@@ -1,0 +1,432 @@
+paths:
+  /api/products:
+    get:
+      summary: Provide you all products registered
+      tags:
+        - Products
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: The maximum number of products to be returned
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: The page to be displayed
+        - in: query
+          name: sort
+          schema:
+            type: integer
+            enum: [-1,1]
+          description: |
+            Sort the products by price as follows:
+
+            - -1: products are sorted from highest to lowest price.
+            
+            -  1: products are sorted from lowest to highest price.
+        - in: query
+          name: query
+          schema:
+            type: String
+          description: |
+            This query can be used in two ways:
+
+            1. If the value is either "true" or "false", it is interpreted as a filter on the "status" property, returning all products with the specified status.
+
+            2. If the value is not "true" or "false", it is interpreted as a filter on the "category" property, returning all products within the specified category.
+      responses:
+        "200":
+          description: Some information and an array of products is returned
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  prevLink:
+                    type: string
+                    example: null
+                  nextLink:
+                    type: string
+                    example: http://localhost:<PORT>/api/products?limit=5&page=2
+                  totalPages:
+                    type: integer
+                    example: 2
+                  page:
+                    type: integer
+                    example: 1
+                  hasPrevPage:
+                    type: boolean
+                    example: false
+                  hasNextPage:
+                    type: boolean
+                    example: true
+                  prevPage:
+                    type: Integer
+                    example: null
+                  nextPage:
+                    type: integer
+                    example: 2
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#components/schemas/product'
+        "400":
+          description: Error caused by bad user request
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Invalid type
+    post:
+      summary: >
+        Creates a new product
+      description: > 
+        It is restricted by role information: only for **admin** or **premium**
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                description:
+                  type: string
+                  minLength: 1
+                code:
+                  type: string
+                  minLength: 1
+                price:
+                  type: integer
+                stock:
+                  type: integer
+                category:
+                  type: string
+                  minLength: 1
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+                - title
+                - description 
+                - code 
+                - price 
+                - stock 
+                - category 
+      security:
+        - roleAuth: []
+      responses:
+        "201":
+          description: Product created
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product added
+        "400":
+          description: Error caused by bad user request
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Invalid type
+        "403":
+          description: Only "admin" or "premium" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+  /api/products/{pid}:
+    get:
+      summary: Provide you the product with the specified id
+      tags:
+        - Products
+      parameters:
+        - in: path
+          required: true
+          name: pid
+          schema:
+            type: string
+          description: Id of the product
+      responses:
+        "200":
+          description: The requested product is returned
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    items:
+                      $ref: '#components/schemas/product'
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+    put:
+      summary: >
+        Updates some properties of the product with the specified id
+      description: > 
+        It is restricted by role information: only for **admin**
+      tags:
+        - Products
+      parameters:
+        - in: path
+          required: true
+          name: pid
+          schema:
+            type: string
+          description: Id of the product to update
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                code:
+                  type: string
+                price:
+                  type: integer
+                stock:
+                  type: integer
+                status:
+                  type: boolean
+                category:
+                  type: string
+                thumbnails:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Product updated
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product updated
+        "400":
+          description: Error caused by bad user request
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Invalid type
+        "403":
+          description: Only "admin" users are authorized
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+    delete:
+      summary: >
+        Deletes the product with the specified id
+      description: > 
+        It is restricted by role information: only for **admin** or **premium**
+      tags:
+        - Products
+      parameters:
+        - in: path
+          required: true
+          name: pid
+          schema:
+            type: string
+          description: Id of the product to delete
+      security:
+        - roleAuth: []
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  message: 
+                    type: string
+                    example: Product deleted
+        "403":
+          description: Only "admin" users are authorized and "premium" ones only for their own products
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        "404":
+          description: Not found
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Not found
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo id atogenerated
+        title:
+          type: String
+          description: Title of the product
+        description:
+          type: String
+          description: Description of the product
+        code:
+          type: String
+          description: Unique code of the product
+          unique: true
+        price:
+          type: Number
+          description: Price of the product
+        status:
+          type: Boolean
+          description: Status of the product
+          default: true
+        stock:
+          type: Number
+          description: Stock of the product
+        category:
+          type: String
+          description: Category of the product
+        thumbnails:
+          type: Array
+          description: Images of the product
+          default: undefined
+        owner:
+          type: String
+          description: E-mail of the owner of the product
+          default: "admin"
+      required:
+                - title
+                - description 
+                - code 
+                - price 
+                - stock 
+                - category 
+      example:
+        _id: ObjectId('64b0690704v04d868c10d1d2')
+        title: Guitar
+        description: Half-Sized Acoustic Guitar
+        code: AAB058
+        price: 599
+        status: true
+        stock: 20
+        category: music
+        thumbnails: [\assets\images\image_1.png,\assets\images\image_2.jpng]
+        owner: mail@example.com
+  securitySchemes:
+    # cookieSessionAuth:
+    #   type: apiKey
+    #   in: header
+    #   name: session  # cookie name
+    roleAuth:
+      type: http
+      scheme: bearer

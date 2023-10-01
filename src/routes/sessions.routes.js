@@ -53,6 +53,6 @@ router.get(
 router.get('/current', getCurrent)
 router.post('/startChangePassword', startChangePassword)
 router.post('/resetPassword', resetPassword)
-router.get('/premium/:uid', roleAuth(['user','premium']), changeRole)//user||premium
+router.get('/premium/:uid', roleAuth(['admin']), changeRole)//admin
 
 export default router

@@ -90,7 +90,7 @@ class cartController{
         if (Object.keys(req.body).length !== 1 || !quantity) return errors(res, -11)
         const cid = req.params.cid
         const pid = req.params.pid
-        if (!quantity) return errors(req, res, -11)
+        if (!quantity || quantity <= 0) return errors(req, res, -11)
         const result = await service.updateQuantity(cid, pid, quantity)
         if (result === 1) res.send({
             status: 'Success',
@@ -107,7 +107,7 @@ class cartController{
         let amount
         products.forEach(async (product)=> {
             const pid = product.id
-            const stock = await prod_serv.getProductById(pid)
+            const stock = (await prod_serv.getProductById(pid)).stock
             const quantity = product.quantity
             if (stock >= quantity) {
                 const result = await prod_serv.updateProduct(pid,{stock:stock-quantity})
@@ -132,7 +132,11 @@ class cartController{
                 errors(req, res, result, pid, cid)
             }
         });
-        return array_de_prods_no_comprados
+        if (ticket_result) res.send({
+            status: 'Success',
+            ticket: ticket_result,
+            not_precessed: array_de_prods_no_comprados
+        })
     }
 }
 
