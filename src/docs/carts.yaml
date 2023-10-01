@@ -516,7 +516,7 @@ paths:
         It is restricted by role information: only for **user** or **premium**
         
         
-        It would process as many as possible products:
+        It would process as many products as possible:
           - If the stock product could not fulfill the order, the product would not be processed and would not be deleted from the cart.
           - If the product is processed successfuly it would be deleted from the cart and would appear in the final ticket generated.
       tags:
