@@ -374,34 +374,34 @@ components:
           type: ObjectId
           description: Mongo id atogenerated
         title:
-          type: String
+          type: string
           description: Title of the product
         description:
-          type: String
+          type: string
           description: Description of the product
         code:
-          type: String
+          type: string
           description: Unique code of the product
           unique: true
         price:
-          type: Number
+          type: integer
           description: Price of the product
         status:
-          type: Boolean
+          type: boolean
           description: Status of the product
           default: true
         stock:
-          type: Number
+          type: integer
           description: Stock of the product
         category:
-          type: String
+          type: string
           description: Category of the product
         thumbnails:
-          type: Array
+          type: array
           description: Images of the product
           default: undefined
         owner:
-          type: String
+          type: string
           description: E-mail of the owner of the product
           default: "admin"
       required:
