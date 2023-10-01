@@ -674,7 +674,6 @@ components:
         amount:
           type: integer
           description: Final amount of the order
-          unique: true
         purchaser:
           type: string
           description: User email
