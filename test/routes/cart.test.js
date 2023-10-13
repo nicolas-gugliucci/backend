@@ -11,7 +11,7 @@ try {
 describe("Testing cart routes", () => {
 
     //pasar session (admin necesario)
-    it("[GET] - Gets all carts created", async function(){
+    it("[GET] - Retrieves all created carts", async function(){
         const response = await requester.get('/api/carts')      
         expect(response).to.be.ok
         expect(response.statusCode).to.be.eql(200)
@@ -25,7 +25,7 @@ describe("Testing cart routes", () => {
         expect(response.body.payload).to.have.property('_id');
     })
 
-    it("[GET] - Get products from a cart by id", async function(){
+    it("[GET] - Get products from a cart by ID", async function(){
         const response = await requester.get(`/api/carts/${id}`) 
         expect(response).to.be.ok
         expect(response.statusCode).to.be.eql(200)
@@ -34,7 +34,7 @@ describe("Testing cart routes", () => {
     })
     
     //agregar session (user o premium)
-    it("[PUT] - Change the products in the cart for a new array of products\n\t The getProducts request must have passed the test successfully", async function(){
+    it("[PUT] - Changes the products in the cart with a new array of products\n\t The getProducts request must have passed the test successfully", async function(){
         const prods = (await requester.get('/api/products')).body.payload
         const p1 = prods[1]._id
         const p2 = prods[2]._id
@@ -91,7 +91,7 @@ describe("Testing cart routes", () => {
     })
 
     //agregar session (user o premium), chequear respuesta
-    it("[DELETE] - Delete all product from the cart specifyed", async function(){
+    it("[DELETE] - Deletes all products from the specified cart", async function(){
         const response = await requester.delete(`/api/carts/${id}`)
         expect(response).to.be.ok
         expect(response.statusCode).to.be.eql(200)
@@ -108,7 +108,7 @@ describe("Testing cart routes", () => {
     })
 
     //agregar session (user o premium)
-    it("[PUT] - Change the quantity of a product into a cart \n\t The getProducts request must have passed the test successfully", async function(){
+    it("[PUT] - Changes the quantity of a product in a cart \n\t The getProducts request must have passed the test successfully", async function(){
         this.timeout(10000)
         const expectedQuantity = 7
         const response = await requester.put(`/api/carts/${id}/product/${pid}`).send({quantity:expectedQuantity})
@@ -121,7 +121,7 @@ describe("Testing cart routes", () => {
     })
 
      //agregar session (user o premium)
-     it("[DELETE] - Delete a product from a cart \n\t The getProducts request must have passed the test successfully", async function(){
+     it("[DELETE] - Deletes a product from a cart \n\t The getProducts request must have passed the test successfully", async function(){
         const response = await requester.delete(`/api/carts/${id}/product/${pid}`)
         expect(response).to.be.ok
         expect(response.statusCode).to.be.eql(200)
@@ -132,7 +132,7 @@ describe("Testing cart routes", () => {
     })
 
     //agregar session (user o premium)
-    it("[POST] - Purchase the order", async function(){
+    it("[POST] - Completes the purchase order", async function(){
         this.timeout(10000)
         await requester.post(`/api/carts/${id}/product/${pid}`)
         const response = await requester.post(`/api/carts/${id}/purchase/`)

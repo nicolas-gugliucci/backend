@@ -27,7 +27,7 @@ describe("Testing session routes", () => {
     // })
 
     //ok, hay q borrar al final el usuario para que se haga bien.
-    it("[POST] - Register a user", async function(){
+    it("[POST] - Registers a user", async function(){
         const user = {
             first_name: 'Nicolás',
             last_name: 'Gugliucci',
@@ -43,8 +43,7 @@ describe("Testing session routes", () => {
         expect(redirectResponse.req.path).to.be.eql('/login')
     })
 
-    //ok
-    it("[POST] - Reject user with void obligatory input", async function(){
+    it("[POST] - Rejects a user with missing mandatory input", async function(){
         const user = {
             first_name: 'Nicolás',
             email: 'nico2@gmail.com',
@@ -55,8 +54,7 @@ describe("Testing session routes", () => {
         expect(response.statusCode).to.be.eql(400)
     })
 
-    //ok
-    it("[POST] - Reject repeted email", async function(){
+    it("[POST] - Rejects repeated email", async function(){
         const user = {
             first_name: 'Nicolás',
             last_name: 'Gugliucci',
@@ -68,8 +66,7 @@ describe("Testing session routes", () => {
         expect(response.statusCode).to.be.eql(400)
     })
 
-    //encontrar diferecnciación entre aceptado y error por algo
-    it("[POST] - Registered pearson trying to login", async function(){
+    it("[POST] - Registered person trying to log in", async function(){
         const user = {
             email: 'nico@gmail.com',
             password: '123',
@@ -81,8 +78,7 @@ describe("Testing session routes", () => {
         expect(redirectResponse.req.path).to.be.eql('/products')
     })
 
-    //ok
-    it("[POST] - Registered pearson trying to login - wrong password", async function(){
+    it("[POST] - Registered person trying to log in with the wrong password", async function(){
         const user = {
             email: 'nico@gmail.com',
             password: '1234',
@@ -91,9 +87,8 @@ describe("Testing session routes", () => {
         expect(response.statusCode).to.be.eql(403)
         expect(response.body.message).to.be.eql('Incorrect credentials')  
     })
-
-    //encontrar diferecnciación entre aceptado y error por algo
-    it("[POST] - Not registered pearson trying to login", async function(){
+    
+    it("[POST] - Not registered person trying to log in", async function(){
         const user = {
             email: 'nico3@gmail.com',
             password: '123',
@@ -106,7 +101,7 @@ describe("Testing session routes", () => {
     })
 
     //pasar la session para que cierre la session
-    it("[GET] - Loged pearson trying to logout", async function(){
+    it("[GET] - Logged-in person trying to log out", async function(){
         const response = await requester.get('/api/sessions/logout').set('Cookie', ['connect.sid=s%3AVzPBfUdYeZCuaWi1smsNZRPB0g9nnKCq.52k9Xe1AuY978PtsS54GdDlKAsUL7Q%2Fg9XWkBiivNLs'])
         expect(response.statusCode).to.be.eql(200)
     })
