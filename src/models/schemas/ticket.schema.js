@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const ticketCollection = 'Tickets'
 const ticketSchema = new mongoose.Schema({
     code: {
-        type: String,
+        type: Number,
         uniqued: true,
         required: true
     },

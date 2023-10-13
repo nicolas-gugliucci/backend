@@ -3,13 +3,14 @@ import { productModel } from "../../schemas/product.schema.js"
 export default class ProductDAO {
   
     async addProduct(product) {
+        let prod
         try {
-            await productModel.create(product)
+            prod = await productModel.create(product)
         } catch (error) {
             if (error.code === 11000) return -7
             else return { message: error.message, error: error.name }
         }
-        return 1
+        return {error:1,product:prod}
     }
     async getProducts(filter, options) {
         try {

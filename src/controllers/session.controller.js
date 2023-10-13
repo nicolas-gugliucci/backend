@@ -38,7 +38,7 @@ class sessionController {
     login (req, res, next) {
         passport.authenticate('login', { passReqToCallback: true }, (err, user, info) => {
             if (err) {
-                return next(err);
+                return res.status(403).send(err);
             }
             if (!user) {
                 const errorMessage = info.message || 'Authentication failed.';

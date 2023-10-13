@@ -30,6 +30,7 @@ export default class CartService{
     }
     async deleteAllFromCart(cid) {
         const result = await dao.deleteAllFromCart(cid)
+        console.log(result)
         return result
     }
     async updateQuantity(cid, pid, quant) {

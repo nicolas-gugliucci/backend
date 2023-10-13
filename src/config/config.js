@@ -7,7 +7,7 @@ const environment = (params.mode)
 dotenv.config({
     path: environment.toUpperCase()==='DEVELOPMENT'?'./.env.development':'./.env.production'
 })
-
+const DATABASE_TEST_URL = process.env.DATABASE_TEST_URL
 const DATABASE_URL = process.env.DATABASE_URL
 const MONGO_STORE_SECRET = process.env.MONGO_STORE_SECRET
 const CLIENT_ID = process.env.CLIENT_ID
@@ -27,4 +27,4 @@ const transport = nodemailer.createTransport({
 })
 
 
-export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL}
+export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL, DATABASE_TEST_URL}

@@ -3,16 +3,17 @@ import ticketModel from '../../schemas/ticket.schema.js'
 export default class ticketDAO {
   
     async generate(ticket) {
+        let ticketResponse
         try {
-            await ticketModel.create(ticket)
+            ticketResponse = await ticketModel.create(ticket)
         } catch (error) {
             return { message: error.message, error: error.name }
         }
-        return 1
+        return {error:1,ticket: ticketResponse}
     }
     async getTickets() {
         try {
-            const tickets = await productModel.find().lean()
+            const tickets = await ticketModel.find().lean()
             return tickets
         } catch (error) {
             return { message: error.message, error: error.name }

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "cd src && nodemon ./app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/routes/*.test.js"
   },
   "author": "gugliucci.nicolas@gmail.com",
   "license": "ISC",
@@ -35,6 +35,10 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2"
+    "@faker-js/faker": "^8.0.2",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3",
+    "supertest-session": "^5.0.1"
   }
 }

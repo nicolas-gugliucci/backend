@@ -37,12 +37,13 @@ class productController{
         if (req.session?.user?.role==='premium') product = {...product, owner: req.session.user.email}
 
         const result = await service.addProduct(product, files)
-        if (result === 1) {
+        if (result?.error === 1) {
             const products = await service.getProducts()
             sendMessage('lista_actualizada', products)
             res.send({
                 status: 'Success',
-                message: 'Product added'
+                message: 'Product added',
+                payload: result.product
             })
         } else errors(req, res, result, null, null, product.code)
     }

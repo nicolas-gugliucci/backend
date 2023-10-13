@@ -1,5 +1,6 @@
 import { cartModel } from "../../schemas/cart.schema.js"
 import ProductService from "../../../services/product.service.js"
+import {sendMessage} from '../../../utils/socket-io.js'
 
 const manager = new ProductService()
 
@@ -69,7 +70,7 @@ export default class CartDAO {
                     }
                 )
             }
-            return 1
+            return {error:1, cart:cart}
         } catch (error) {
             if (error.reason?.message === 'Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer') return -10
             return { message: error.message, error: error.name }

@@ -24,4 +24,9 @@ export default class UserService{
         return result
     }
 
+    deleteUser = async (email) => {
+        const result = await dao.deleteUser(email)
+        return result
+    }
+
 }

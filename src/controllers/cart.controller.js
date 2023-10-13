@@ -44,9 +44,11 @@ class cartController{
         if (req.session?.user?.role==='premium' && req.session.user.email===(await prod_serv.getProductById(id)).owner) return errors(req, res, -19)
         
         const result = await service.addProductToCart(cid, pid)
-        if (result === 1) res.send({
+        const cart = await service.getCartById(cid, true)
+        if (result?.error === 1) res.send({
             status: 'Success',
-            message: 'Product added to cart'
+            message: 'Product added to cart',
+            payload: cart
         })
         else errors(req, res, result, pid, cid)
     }
@@ -101,12 +103,12 @@ class cartController{
 
     async purchase (req, res) {
         const cid = req.params.cid
-        const products = service.getCartById(cid, true)
+        const products = (await service.getCartById(cid, true)).products
         let products_processed = []
         let products_not_processed = []
-        let amount
-        products.forEach(async (product)=> {
-            const pid = product.id
+        let amount = 0
+        for (const product of products) {
+            const pid = product._id._id
             const stock = (await prod_serv.getProductById(pid)).stock
             const quantity = product.quantity
             if (stock >= quantity) {
@@ -116,26 +118,24 @@ class cartController{
                     errors(req, res, result, pid, cid)
                 }
                 products_processed.push(pid)
-                amount += product.price*product.quantity
+                amount += product._id.price*product.quantity
             }else{
                 products_not_processed.push(pid)
             }
-        });
-        const purchaser = req.session.user.email
-        console.log(purchaser)
-        console.log(products_processed)
-        console.log(products_not_processed)
-        const ticket_result = ticket_serv.generateTicket(amount, purchaser)
-        products_processed.forEach(async (pid) => {
+        }
+        const purchaser = req?.session?.user?.email?req?.session?.user?.email:'gugliucci.nicolas@gmail.com'
+        const ticket_result = await ticket_serv.generateTicket(amount, purchaser)
+        for (const pid of products_processed) {
             const result = await service.deleteProductFromCart(pid,cid)
             if (result !== 1) {
                 errors(req, res, result, pid, cid)
             }
-        });
+        }
+        console.log(ticket_result)
         if (ticket_result) res.send({
             status: 'Success',
-            ticket: ticket_result,
-            not_precessed: array_de_prods_no_comprados
+            ticket: ticket_result.ticket,
+            not_processed: products_not_processed
         })
     }
 }
