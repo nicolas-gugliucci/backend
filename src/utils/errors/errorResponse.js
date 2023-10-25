@@ -232,13 +232,14 @@ export const errors = (req, res, result, pid, cid, code, email) => {
                 errorMeddleware(error, req, res)
             }
             break;
-        // default:
-        //     const { error, message } = result
-        //     res.status(400).send({
-        //         status: "Error",
-        //         error: error,
-        //         message: message
-        //     })
-        //     break;
+        default:
+            const { error, message } = result
+            customError.createError({
+                name: error,
+                cause: '',
+                message: message,
+                code: EnumErrors.INVALID_STRUCTURE_ERROR,
+            })
+            break;
     }
 }

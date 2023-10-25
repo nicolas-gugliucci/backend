@@ -11,7 +11,8 @@ import {
     getCurrent,
     startChangePassword,
     resetPassword,
-    changeRole
+    changeRole,
+    loadDocument
 } from '../controllers/session.controller.js'
 import { roleAuth } from "../middlewares/role.middleware.js";
 
@@ -54,5 +55,7 @@ router.get('/current', getCurrent)
 router.post('/startChangePassword', startChangePassword)
 router.post('/resetPassword', resetPassword)
 router.get('/premium/:uid', roleAuth(['admin']), changeRole)//admin
+router.post('/:uid/documents', uploader.array(), loadDocument)
+
 
 export default router

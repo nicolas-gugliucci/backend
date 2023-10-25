@@ -17,9 +17,20 @@ const userSchema = new mongoose.Schema({
     age: {
         type: Number
     },
-    // salt: {
-    //     type: String
-    // },
+    documents: [
+        {
+            name: {
+                type: String,
+            },
+            reference:{
+                type: String,
+            }
+        }
+    ],
+    last_connection: {
+        type: Date,
+        default: null,
+    },
     password: {
         type: String,
         required: true
@@ -41,6 +52,20 @@ const userSchema = new mongoose.Schema({
     },
     gitId: {
         type: String,
+    },
+    status:{
+        identificacion: {
+            type: Boolean,
+            default: false
+        },
+        comprobante_domicilio: {
+            type: Boolean,
+            default: false
+        },
+        comprobante_estado_cuenta: {
+            type: Boolean,
+            default: false
+        },
     }
 })
 

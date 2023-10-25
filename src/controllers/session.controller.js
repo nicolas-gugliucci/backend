@@ -9,8 +9,11 @@ import generarStringAleatorio from "../utils/text.js";
 const service = new UserService()
 
 class sessionController {
-    logout (req, res) {
+    async logout (req, res) {
         const sessionId = req.session.id
+        let user = await service.getById({email: req.session.email})
+        user.last_connection = new Date()
+        const result = await service.updateUser(user._id, user)
         req.session.destroy(err => {
             if (err) {
                 return res.status(400).send({
@@ -36,7 +39,7 @@ class sessionController {
     }
     
     login (req, res, next) {
-        passport.authenticate('login', { passReqToCallback: true }, (err, user, info) => {
+        passport.authenticate('login', { passReqToCallback: true }, async (err, user, info) => {
             if (err) {
                 return res.status(403).send(err);
             }
@@ -54,6 +57,10 @@ class sessionController {
                 role: user.role,
                 cart: user.cart
             };
+            let user = await service.getById({email: user.email})
+            user.last_connection = new Date()
+            const result = await service.updateUser(user._id, user)
+
             return res.redirect('/products');
         })(req, res, next)
     }
@@ -160,12 +167,53 @@ class sessionController {
             const user = await service.getById({_id:_id})
             let role = user.role
             if(role==='user'){
-                user.role = 'premium'
+                if(user.status.identificacion && user.status.comprobante_domicilio && user.status.comprobante_estado_cuenta){
+                    user.role = 'premium'
+                }else{
+                    return res.status(400).send('The documentation required is not completed')
+                }
+                
             }else{
                 user.role = 'user'
             }
             const result = await service.updateUser({_id:_id}, user)
             res.send('Role updated')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async loadDocument (req, res) {
+        try {
+            if(!req.body.tipo_documento || !req.body.folderName) return errors(req,res,{error:'Incorret request', message:'Folder name and tipo_documento are required'})
+            let files = req.files
+            const _id = req.params.uid
+            let user = await service.getById({_id:_id})
+            if (files) {
+                if (files.length !== 0) {
+                    files.forEach(file => {
+                        user.documents.push({
+                            name: file.originalname,
+                            reference: (file.path).slice(60, undefined)
+                        })
+                    });
+                }
+            }
+            switch (req.body.tipo_documento) {
+                case 'identificacion':
+                    user.ststus.identificacion = true
+                    break;
+                case 'comprobante_domicilio':
+                    user.ststus.comprobante_domicilio = true
+                    break;
+                case 'comprobante_estado_cuenta':
+                    user.ststus.comprobante_estado_cuenta = true
+                    break;
+                default:
+                    break;
+            }
+            const result = await service.updateUser(_id,user)
+            res.send('Document loaded')
         } catch (error) {
             console.log(error)
         }
@@ -183,7 +231,8 @@ const {
     getCurrent,
     startChangePassword,
     resetPassword,
-    changeRole
+    changeRole,
+    loadDocument
 } = controller
 
 export {
@@ -196,5 +245,6 @@ export {
     getCurrent,
     startChangePassword,
     resetPassword,
-    changeRole
+    changeRole,
+    loadDocument
 }
