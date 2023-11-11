@@ -46,7 +46,18 @@ class viewsController {
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = window.location.href
+        
+        const protocolo = req.protocol;
+
+        // Obtén el nombre de host
+        const host = req.get('host');
+      
+        // Obtén la ruta específica de la solicitud
+        const ruta = req.originalUrl;
+      
+        // Combina el protocolo, el nombre de host y la ruta para obtener la ruta completa
+        const currentUrl = `${protocolo}://${host}${ruta}`;
+        //const currentUrl = window.location.href
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('products', {
             style: 'index.css',
