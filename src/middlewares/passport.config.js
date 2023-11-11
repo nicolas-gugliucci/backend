@@ -33,9 +33,8 @@ export const initPassport = () => {
                     if (exist) return done('The user already exist')
                     if (!last_name) return done('Last name is obligatory')
 
-                    const protocolo = req.protocol;
                     const host = req.get('host');
-                    const currentUrl = `${protocolo}://${host}`;
+                    const currentUrl = `https://${host}`;
                     tofetch = `${currentUrl}/api/carts/`
                     
                     fetch(tofetch,{
