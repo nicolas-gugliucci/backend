@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer'
 const environment = params.mode;
 
 // Railway proporciona automáticamente las variables de entorno
-dotenv.config();
+dotenv.config({path: './.env'});
 
 // Ahora, puedes acceder a las variables de entorno directamente
 // sin depender de archivos .env específicos para cada entorno
