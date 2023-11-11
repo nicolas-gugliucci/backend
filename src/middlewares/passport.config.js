@@ -44,7 +44,7 @@ export const initPassport = () => {
                             return result.json();
                         }
                     }).then(async data => {
-                        let cid = data.payload._id
+                        let cid = data?.payload?._id
                         const user= {
                             first_name,
                             last_name,
