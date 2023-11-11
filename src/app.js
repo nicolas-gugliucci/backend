@@ -82,6 +82,20 @@ app.use('/apidocs',swaggerUIExpress.serve,swaggerUIExpress.setup(spec))
 const httpserver = app.listen(PORT, () => console.log('Server arriba'))
 socketConnection(httpserver)
 
+const hbs = handlebars.create({});
+hbs.handlebars.registerHelper('multiply', function(a,b) {
+
+  return a*b;
+})
+
+hbs.handlebars.registerHelper('calculateTotal', function(products) {
+    let total = 0;
+    for (let product of products) {
+        total += product.quantity * product._id.price;
+    }
+    return total
+})
+
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + 'src/views')
 app.set('view engine', 'handlebars')

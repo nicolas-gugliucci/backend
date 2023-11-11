@@ -1,3 +1,4 @@
+import { MAIL, transport } from '../config/config.js'
 import CartService from '../services/cart.service.js'
 import ProductService from '../services/product.service.js'
 import TicketService from '../services/ticket.service.js'
@@ -29,7 +30,9 @@ class cartController{
 
     async getCart (req, res) {
         const id = req.params.cid
+        console.log(id)
         const productsInCart = await service.getCartById(id, true)
+        console.log(productsInCart)
         if (productsInCart === -10 || productsInCart?.error) errors(req, res, productsInCart, null, id)
         else res.send({
             status: 'success',
@@ -41,7 +44,7 @@ class cartController{
         const cid = req.params.cid
         const pid = req.params.pid
 
-        if (req.session?.user?.role==='premium' && req.session.user.email===(await prod_serv.getProductById(id)).owner) return errors(req, res, -19)
+        if (req.session?.user?.role==='premium' && req.session.user.email===(await prod_serv.getProductById(pid)).owner) return errors(req, res, -19)
         
         const result = await service.addProductToCart(cid, pid)
         const cart = await service.getCartById(cid, true)
@@ -101,42 +104,76 @@ class cartController{
         else errors(res, result, pid, cid)
     }
 
-    async purchase (req, res) {
-        const cid = req.params.cid
-        const products = (await service.getCartById(cid, true)).products
-        let products_processed = []
-        let products_not_processed = []
-        let amount = 0
+    async purchase(req, res) {
+        const cid = req.params.cid;
+        const products = (await service.getCartById(cid, true)).products;
+        let products_processed = [];
+        let products_not_processed = [];
+        let amount = 0;
+    
         for (const product of products) {
-            const pid = product._id._id
-            const stock = (await prod_serv.getProductById(pid)).stock
-            const quantity = product.quantity
+            const pid = product._id._id;
+            const prod = await prod_serv.getProductById(pid);
+            const stock = prod.stock;
+            const title = prod.title;
+            const quantity = product.quantity;
+    
             if (stock >= quantity) {
-                const result = await prod_serv.updateProduct(pid,{stock:stock-quantity})
+                const result = await prod_serv.updateProduct(pid, { stock: stock - quantity });
+    
                 if (result !== 1) {
-                    products_not_processed.push(pid)
-                    errors(req, res, result, pid, cid)
+                    products_not_processed.push(pid);
+                    errors(req, res, result, pid, cid);
                 }
-                products_processed.push(pid)
-                amount += product._id.price*product.quantity
-            }else{
-                products_not_processed.push(pid)
+    
+                products_processed.push({ pid, title, quantity });
+                amount += product._id.price * product.quantity;
+            } else {
+                products_not_processed.push({ pid, title, quantity });
             }
         }
-        const purchaser = req?.session?.user?.email?req?.session?.user?.email:'gugliucci.nicolas@gmail.com'
-        const ticket_result = await ticket_serv.generateTicket(amount, purchaser)
-        for (const pid of products_processed) {
-            const result = await service.deleteProductFromCart(pid,cid)
+    
+        const purchaser = req?.session?.user?.email ? req.session.user.email : 'nicogna9@gmail.com';
+        const ticket_result = await ticket_serv.generateTicket(amount, purchaser);
+    
+        for (const product of products_processed) {
+            const result = await service.deleteProductFromCart(product.pid, cid);
+    
             if (result !== 1) {
-                errors(req, res, result, pid, cid)
+                errors(req, res, result, product.pid, cid);
             }
         }
-        console.log(ticket_result)
-        if (ticket_result) res.send({
-            status: 'Success',
-            ticket: ticket_result.ticket,
-            not_processed: products_not_processed
-        })
+    
+        console.log(ticket_result);
+    
+        if (ticket_result) {
+            const productsHTML = products_processed.map(product => `<h4>${product.title} x${product.quantity}</h4>`).join('');
+            const notProcessedHTML = products_not_processed.length > 0 ? `<p>Some items were not processed due to insufficient stock:</p>` : '';
+            const notProcessedHTMLProducts = products_not_processed.length > 0 ? products_not_processed.map(product => `<p>${product.title} x${product.quantity}</p>`).join('') : '';
+    
+            const mailParams = {
+                from: `${MAIL}`,
+                to: `${purchaser}`,
+                subject: 'Purchase',
+                html:
+                    `<div style="text-align: center;">
+                        <h1>Purchase sum</h1>
+                        ${productsHTML}
+                        <h3>Total US$${ticket_result.ticket.amount}</h3>
+                        ${notProcessedHTML}
+                        ${notProcessedHTMLProducts}
+                        <h2>Your order code: ${ticket_result.ticket.code}</h2>
+                        <h4>Thank you!</h4>
+                    </div>`,
+            };
+    
+            const result = await transport.sendMail(mailParams);
+            res.send({
+                status: 'Success',
+                ticket: ticket_result.ticket,
+                not_processed: products_not_processed.map(product => product.pid),
+            });
+        }
     }
 }
 

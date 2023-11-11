@@ -1,22 +1,36 @@
-<div>
-    <h1>Sign up</h1>
-    <form id="registerForm">
-        <label>Name</label>
-        <input name="first_name">
-        <br/>
-        <label>Surname</label>
-        <input name="last_name">
-        <br/>
-        <label>Age</label>
-        <input name="age">
-        <br/>
-        <label>Email</label>
-        <input name="email">
-        <br/>
-        <label>Password</label>
-        <input type="password" name="password">
-        <input type="submit">
-    </form>
-    <p>Do you have an account? Log in <a href="/login">here</a></p>
-</div>
-<script src="/js/register.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Handlebars CSS Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
+</head>
+<body>
+    <div class="login">
+        <h1>Sign up</h1>
+        <form id="registerForm">
+            <label>Name</label>
+            <input name="first_name">
+            <br/>
+            <label>Surname</label>
+            <input name="last_name">
+            <br/>
+            <label>Age</label>
+            <input name="age">
+            <br/>
+            <label>Email</label>
+            <input name="email">
+            <br/>
+            <label>Password</label>
+            <input type="password" name="password">
+            <br/>
+            <input type="submit" class="btn big" value="Register">
+        </form>
+        <div  class="buttonsContainer">
+            <p>Do you have an account? Log in <a href="/login">here</a></p>
+        </div>
+    </div>
+    <script src="/js/register.js"></script>
+</body>
+</html>

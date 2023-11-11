@@ -1,0 +1,184 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+
+html{
+    font-size: 62.5%;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: initial;
+    line-height: normal;
+}
+h2{
+    font-size: 3rem !important;
+}
+h3, h4{
+    font-size: 2.5rem !important;
+}
+h5{
+    font-size: 1.8rem !important;
+}
+p, i{
+    font-size: 1.6rem !important;
+}
+body{
+    background-color: wheat;
+}
+
+header{
+    padding: 10px 20px;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    z-index: 5;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: black solid 2px;
+    background-color: wheat;
+}
+
+#collapse_login div{
+    width: 100px;
+    margin: 10px;
+}
+
+.userr{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.userr form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.userr form button{
+    align-self: flex-end;
+    margin-right: 10px;
+    padding: 2px 5px 0 5px;
+    border: none;
+    background-color: transparent;
+    border-radius: 2px;
+    transition: transform 250ms cubic-bezier(.2,.8,.4,1);
+}
+
+.userr form button:hover{
+    transform: scale(1.10);
+}
+.userr form button:active{
+    transform: scale(0.9);
+}
+
+.userInfo{
+    display: flex;
+    justify-content: space-between;
+    width: 170px;
+}
+
+.login{
+    height: 49px;
+    width: 49px;
+    border-radius: 50%;
+    background-color: #B49082;
+}
+
+.carta_container{
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/*-------------------BUTTONS-------------------*/
+button {
+    width:fit-content;
+    background-color: #B49082;
+    border: none;
+    border-radius: 10%;
+}
+
+#cart{
+    border: black solid 3px;
+}
+  
+/*--------------------CARDS--------------------*/
+.btn:first-child:hover, :not(.btn-check) + .btn:hover {
+    background-color: #98473E;
+    color: black;
+    margin: 0 0 0 0;
+}
+
+.card_buttonn {
+    width: 150px;
+    padding: 12px 24px;
+    background-color: #98473E;
+    color: black;
+    margin: 0 0 10px 0;
+    border: #98473E;
+    border-radius: 7px;
+    transition: transform 250ms cubic-bezier(0.2, 0.8, 0.4, 1);
+    display: flex;
+    justify-content: center;
+    font-size: 1.6rem !important;
+}
+
+.card_buttonn:hover {
+    transform: scale(1.15);
+    margin-bottom: 10px !important;
+}
+.card_buttonn:active {
+    transform: scale(0.9);
+}
+.card_buttonn p {
+    margin-bottom: 0;
+}
+
+.card {
+    text-align: center;
+    background-color: #B49082;
+    width: 300px !important;
+}
+.card h5 {
+    font-family: "Comfortaa", cursive;
+    font-size: 1.8rem;
+}
+.card p {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.5rem;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.products_container_1{
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    
+    row-gap: 30px;
+    justify-items: center;
+}
+
+.pages{
+    display: flex;
+    width: 300px;
+    align-items: center;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.pages a{
+    background-color: chocolate !important;
+    width: 80px !important;
+    text-decoration: none;
+}

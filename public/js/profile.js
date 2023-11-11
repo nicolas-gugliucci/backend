@@ -1,35 +1,14 @@
-const form = document.getElementById('loginForm')
+const backButton = document.getElementById('back');
 
-form.addEventListener('submit', e => {
-    e.preventDefault()
-
-    const data = new FormData(form)
-    const obj = {}
-    data.forEach((value, key) => obj[key] = value)
-
-    fetch('/api/sessions/login', {
-        method: 'POST',
-        body: JSON.stringify(obj),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(result => {
-        if (result.status === 200) {
-            window.location.replace('/products')
-        } else if (result.status === 400) {
-            let errorP = document.getElementById("error")
-            errorP.innerHTML = 'User or password incorrect'
-        }
-    }).catch(error => {
-        return done(error)
-    })
-
+backButton.addEventListener('mouseup', (e) => {
+    e.preventDefault();
+    window.location.replace(`/products`)
 })
 
-const start_reset_password_button = document.getElementById('reset-password')
+const start_reset_password_button = document.getElementById('changePassword')
 
-const startresetPassword = (event) => {
-    event.preventDefault();
+start_reset_password_button.addEventListener('mouseup', (e) => {
+    e.preventDefault();
     Swal.fire({
         title: "Reset your password",
         text: "To reset your password complete the blank with your registered email",
@@ -67,6 +46,4 @@ const startresetPassword = (event) => {
             })
         }
     })
-};
-
-start_reset_password_button.addEventListener('click', startresetPassword)
+})

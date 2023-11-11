@@ -1,19 +1,37 @@
-<div>
-    <h1>Log in</h1>
-    <form id="loginForm">
-        <label>Email</label>
-        <input name="email">
-        <br/>
-        <label>Password</label>
-        <input type="password" name="password">
-        <input type="submit">
-        <p id="error"></p>
-    </form>
-    <div>
-        <a href="/api/sessions/github"><button>Log in with GitHub</button></a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Handlebars CSS Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
+</head>
+<body>
+    <div class="login">
+        <h1>Log in</h1>
+        <form id="loginForm">
+            <label>Email</label>
+            <input name="email">
+            <br/>
+            <div class="errorContainer">
+                <label>Password</label>
+                <input type="password" name="password">
+                <p id="error"></p>
+            </div>
+            <br/>
+            <input type="submit" class="btn big" value="Log in">
+        </form>
+        <div>
+            <a class="outlineButton" href="/api/sessions/github"><button class="btn bigg"><i class="bi bi-github"></i> Log in with GitHub</button></a>
+        </div>
+        <div  class="buttonsContainer">
+            <p>Did you forget your password? Reset it<button class="linkButton" type="submit" id="reset-password">here</button></p>
+            <p>Don't you have an account yet? Sign up <a class="linkButton" href="/register">here</a></p>
+        </div>
+       
     </div>
-    <p>Did you forget your password? Reset it <button type="submit" id="reset-password">here</button></p>
-    <p>Don't you have an account yet? Sign up <a href="/register">here</a></p>
-</div>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/js/login.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/login.js"></script>
+    <script src="/assets/css/login.css"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 import ProductService from '../services/product.service.js'
 import CartService from '../services/cart.service.js'
 import { mockProducts } from '../utils/mocks.utils.js'
+import { PORT_ENV } from '../config/config.js'
 
 const manager = new ProductService()
 const cartsManager = new CartService()
@@ -44,7 +45,7 @@ class viewsController {
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:8080${req.originalUrl}`
+        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('products', {
             style: 'index.css',
@@ -92,6 +93,10 @@ class viewsController {
     startResetPassword (req, res) {
         res.render('startResetPassword')
     }
+
+    info (req, res) {
+        res.render('info')
+    }
 }
 
 const controller = new viewsController()
@@ -107,7 +112,8 @@ const {
     profile,
     mockingproducts,
     resetPassword,
-    startResetPassword
+    startResetPassword,
+    info
 } = controller
 
 export {
@@ -121,5 +127,6 @@ export {
     profile,
     mockingproducts,
     resetPassword,
-    startResetPassword
+    startResetPassword,
+    info
 }

@@ -11,7 +11,7 @@ const service = new UserService()
 class sessionController {
     async logout (req, res) {
         const sessionId = req.session.id
-        let user = await service.getById({email: req.session.email})
+        let user = await service.getById({email: req.session.user.email})
         user.last_connection = new Date()
         const result = await service.updateUser(user._id, user)
         req.session.destroy(err => {
@@ -57,9 +57,9 @@ class sessionController {
                 role: user.role,
                 cart: user.cart
             };
-            let user = await service.getById({email: user.email})
-            user.last_connection = new Date()
-            const result = await service.updateUser(user._id, user)
+            let pearson = await service.getById({email: user.email})
+            pearson.last_connection = new Date()
+            const result = await service.updateUser(pearson._id, pearson)
 
             return res.redirect('/products');
         })(req, res, next)
@@ -81,13 +81,13 @@ class sessionController {
         }else{
             const errorMessage = req.query.message || 'Authentication failed.';
             console.log(errorMessage)
-            res.send(`Failed login: ${errorMessage}`);
+            res.send({message:`Failed login: ${errorMessage}`});
         }
     }
     
     failedRegister (req,res) {
         console.log(res.message)
-        res.send('failed register')
+        res.send({message:'failed register'})
     }
     
     githubcallback (req,res) {
@@ -104,7 +104,6 @@ class sessionController {
    
     getCurrent (req, res) {
         const user = req.session.user
-        console.log(req.session)
         const DTO = new userDTO(user)
         const safe_user_info = DTO
         res.send({status:'success', payload: safe_user_info})
@@ -137,7 +136,7 @@ class sessionController {
                     </div>`,
             }
             const reslut = await transport.sendMail(mailParams)
-            res.send('E-mail sent')
+            res.send({message:'E-mail sent'})
         }catch(error){
             console.log(error) 
         }
@@ -151,11 +150,23 @@ class sessionController {
         user.password = secretPassword
         try {
             const result = await service.updateUser(user._id, user)
-            console.log(result)
             delete req.session.resetPasswordToken;
             delete req.session.resetPasswordExpires;
             delete req.session.user.email;
-            res.send('Password reseted')
+            res.send({message:'Password reseted'})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async changeRoleByAdmin (req, res){
+        try {
+            const _id = req.params.uid
+            const newRoleByAdmin = req.body?.role
+            let user = await service.getById({_id:_id})
+            user.role = newRoleByAdmin
+            const result = await service.updateUser({_id:_id}, user)
+            res.send({messagge:'Role updated'})
         } catch (error) {
             console.log(error)
         }
@@ -164,7 +175,7 @@ class sessionController {
     async changeRole (req, res) {
         try {
             const _id = req.params.uid
-            const user = await service.getById({_id:_id})
+            let user = await service.getById({_id:_id})
             let role = user.role
             if(role==='user'){
                 if(user.status.identificacion && user.status.comprobante_domicilio && user.status.comprobante_estado_cuenta){
@@ -177,7 +188,7 @@ class sessionController {
                 user.role = 'user'
             }
             const result = await service.updateUser({_id:_id}, user)
-            res.send('Role updated')
+            res.send({message:'Role updated'})
         } catch (error) {
             console.log(error)
         }
@@ -213,10 +224,58 @@ class sessionController {
                     break;
             }
             const result = await service.updateUser(_id,user)
-            res.send('Document loaded')
+            res.send({message:'Document loaded'})
         } catch (error) {
             console.log(error)
         }
+    }
+
+    async getAllUsers(req, res){
+        const users = (await service.getAll()).map(user => {
+            delete user.age
+            delete user.documents
+            delete user.last_connection
+            delete user.password
+            delete user.img
+            delete user.cart
+            delete user.status
+            return user
+        })
+        const data = {payload: users, status:'success'}
+        res.json(data)
+    }
+
+    async deleteUsers(req, res){
+        const limit_date = new Date()
+        limit_date.setDate(limit_date.getDate() - 2);
+        const users = await service.getAll();
+        for (const user of users) {
+            if (!user.last_connection || new Date(user.last_connection) < limit_date) {
+                const email = user.email
+                const name = user.first_name
+                const result = await service.deleteUser(email);
+                if (result.deletedCount === 1) {
+                    const mailParams = {
+                        from : `${MAIL}`,
+                        to : `${email}`,
+                        subject : 'Account Deactivation Confirmation',
+                        html : `
+                            <p>Dear ${name},</p>
+                            <p>We regret to inform you that your account has been deactivated due to prolonged inactivity, and all associated data has been permanently removed. If you wish to reinstate your account, please create a new one.</p>`
+                    }
+                    const reslut = await transport.sendMail(mailParams)
+                }
+                res.send({message:'Users deleted'})
+            } else {
+                continue;
+            }
+        }
+    }
+
+    async deleteUserByAdmin (req, res) {
+        const email = req.params.email
+        const result = await service.deleteUser(email);
+        res.send({message:'User deleted'})
     }
 }
 
@@ -232,7 +291,11 @@ const {
     startChangePassword,
     resetPassword,
     changeRole,
-    loadDocument
+    loadDocument,
+    getAllUsers,
+    deleteUsers,
+    changeRoleByAdmin,
+    deleteUserByAdmin
 } = controller
 
 export {
@@ -246,5 +309,9 @@ export {
     startChangePassword,
     resetPassword,
     changeRole,
-    loadDocument
+    loadDocument,
+    getAllUsers,
+    deleteUsers,
+    changeRoleByAdmin,
+    deleteUserByAdmin
 }

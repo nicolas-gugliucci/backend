@@ -1,47 +1,89 @@
-{{#if user}}
-    <header>
-        <div className='userInfo'>
-            <Button id='userIcon'><img style="height: 50px;" src="{{user.img}}" alt="user profile"/></Button>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/products.css">
+</head>
+<body>
+    {{#if user}}
+        <header>
+            <img src="/assets/images/store.png" alt="logo"/>
             <p className='userWelcome'>Welcome {{user.name}}</p>
-            <p>Rol: {{user.role}}</p>
-            <button id="logout">Log out</button>
-        </div>
-        <button id="cart" value="{{user.cart}}"><img style="height: 50px;" src="/assets/images/shopping-cart.png" alt="cart"/></button>
-    </header>
-{{/if}}
-
-<div>
-    {{#each products}}
-        <form class="product-form">
-            <div>
-                <p id="id">Id: {{_id}}</p>
-                <p>Title: {{title}}</p>
-                <p>Description: {{description}}</p>
-                <p>Code: {{code}}</p>
-                <p>Price: {{price}}</p>
-                <p>Status: {{status}}</p>
-                <p>Stock: {{stock}}</p>
-                <p>Category: {{category}}</p>
-                {{#if thumbnails}}
-                    <p>Tumbnails:</p>
-                    {{#each thumbnails}}
-                        <img style="height: 150px;" src="{{this}}"/>
-                    {{/each}}
-                {{/if}}
+            <p>Role: {{user.role}}</p>
+            <div className='userInfo' class="userInfo">
+                <button id="cart" value="{{user.cart}}"><img style="height: 50px;" src="/assets/images/shopping-cart.png" alt="cart"/></button>
+                <div class="userr">
+                    <a class="login" data-bs-toggle="collapse" href="#collapseUser" role="button" aria-expanded="false" aria-controls="collapseUser">
+                        <img style="height: 50px;" src="{{user.img}}" alt="user profile"/>
+                    </a>
+                    <div class="collapse" id="collapseUser">
+                        <button id='userIcon'>User info</button>
+                        <button id="logout">Log out</button>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="add-to-cart" data-product-id="{{_id}}">Add to cart</button>
-        </form>
-        <hr>
-    {{/each}}
-</div>
-<div>
-    {{#if prevLink}}
-        <a href="{{prevLink}}">Anterior</a>
+        </header>
     {{/if}}
-    {{#if nextLink}}
-        <a href="{{nextLink}}">Siguiente</a>
-    {{/if}}
-</div>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/products.js"></script>
+    <div class="carta_container">
+        <div class="products_container_1">
+            {{#each products}}
+                <form class="product-form card carta_card" style="width: 28rem;">
+                    {{#if thumbnails}}
+                        <div id="{{code}}" class="carousel slide">
+                            <div class="carousel-inner">
+                                {{#each thumbnails}}
+                                    {{#if @first}}
+                                        <div class="carousel-item active">
+                                            <img style="height: 150px;" src="{{this}}" class="card-img-top d-block w-100" alt="..."/>
+                                        </div>
+                                    {{else}}
+                                        <div class="carousel-item">
+                                            <img style="height: 150px;" src="{{this}}" class="card-img-top d-block w-100" alt="..."/>
+                                        </div>
+                                    {{/if}}
+                                {{/each}}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    {{else}}
+                        <div class="carousel-item active">
+                            <img style="height: 150px;" src="/assets/images/no_image.jpg" class="card-img-top d-block w-100" alt="..."/>
+                        </div>
+                    {{/if}}
+                    <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <div >
+                            <p>Description: {{description}}</p>
+                            <p>Code: {{code}}</p>
+                            <p>Stock: {{stock}}</p>
+                            <p>Category: {{category}}</p>
+                        </div>
+                        <button type="submit" class="add-to-cart card_buttonn" data-product-id="{{_id}}">Buy ${{price}}</button>
+                    </div>
+                </form>
+                <hr>
+            {{/each}}
+        </div>
+        <div class="pages">
+            {{#if prevLink}}
+                <a class="card_buttonn" href="{{prevLink}}">Previous</a>
+            {{/if}}
+            {{#if nextLink}}
+                <a class="card_buttonn"  href="{{nextLink}}">Next</a>
+            {{/if}}
+        </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

@@ -12,7 +12,11 @@ import {
     startChangePassword,
     resetPassword,
     changeRole,
-    loadDocument
+    loadDocument,
+    getAllUsers,
+    deleteUsers,
+    changeRoleByAdmin,
+    deleteUserByAdmin
 } from '../controllers/session.controller.js'
 import { roleAuth } from "../middlewares/role.middleware.js";
 
@@ -56,6 +60,12 @@ router.post('/startChangePassword', startChangePassword)
 router.post('/resetPassword', resetPassword)
 router.get('/premium/:uid', roleAuth(['admin']), changeRole)//admin
 router.post('/:uid/documents', uploader.array(), loadDocument)
+router.post('/role/:uid', changeRoleByAdmin)
+router.delete('/delete/:email', deleteUserByAdmin)
+
+
+router.get('/', roleAuth(['admin']), getAllUsers)
+router.delete('/', roleAuth(['admin']), deleteUsers)
 
 
 export default router

@@ -6,7 +6,7 @@ export default class UserService{
 
     getAll = async() => {
         const users = await dao.getAll()
-        return users.map(user => user.toObject())
+        return users
     }
     saveUser = async(user)=>{
         const result = await dao.saveUser(user)

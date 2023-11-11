@@ -1,9 +1,11 @@
 import ProductService from '../services/product.service.js'
 import { sendMessage } from '../utils/socket-io.js'
 import { errors } from '../utils/errors/errorResponse.js'
-import { PORT_ENV } from '../config/config.js'
+import { MAIL, PORT_ENV, transport } from '../config/config.js'
+import UserService from '../services/user.service.js'
 
 const service = new ProductService()
+const userService = new UserService()
 
 class productController{
     async getAll (req, res) {
@@ -66,13 +68,28 @@ class productController{
 
     async deleteProduct (req, res) {
         const id = req.params.pid
-
-        if (req.session?.user?.role==='premium' && req.session.user.email!==(await service.getProductById(id)).owner) return errors(req, res, -18)
-        
+        const emailOwner = (await service.getProductById(id)).owner
+        if (req.session?.user?.role === 'premium' && req.session.user.email !== emailOwner) return errors(req, res, -18)
+        const product = await service.getProductById(id)
         const result = await service.deleteProduct(id)
         if (result === 1) {
             const products = await service.getProducts()
             sendMessage('lista_actualizada', products)
+            if(emailOwner != 'admin'){
+                const mailParams = {
+                    from : `${MAIL}`,
+                    to : `${emailOwner}`,
+                    subject : 'Product info',
+                    html : 
+                        `<div style="text-align: center;">
+                            <h1>The following product has been deleted:</h1>
+                            <h2>${product.title}</h2>
+                            <p>${product.description}</p>
+                            ${product.thumbnails.map(image => `<img src="${image}">`).join('')}
+                        </div>`,
+                }
+                const reslut = await transport.sendMail(mailParams)
+            }
             res.send({
                 status: 'Success',
                 message: 'Product deleted'

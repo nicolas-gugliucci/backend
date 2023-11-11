@@ -28,13 +28,12 @@ export default class ProductService{
         else if (query) filter = { category: query }
         const options = 
             { 
-                limit: limit ? limit : 10,
+                limit: limit ? limit : 8,
                 sort: sort ? { price: sort } : {},
                 page: page ? page : 1,
                 lean: true
             }
         products = await dao.getProducts(filter, options)
-        if (!products?.hasNextPage) return products
         let nextLink = null
         let prevLink = null
         if (products.hasNextPage) {

@@ -11,18 +11,18 @@ import {
 
 const router = Router()
 
-// router.get('/', getAll)
-// router.post('/', roleAuth(['admin','premium']), uploader.array('thumbnails'), createProduct)//admin||premium
-
-// router.get('/:pid', getproduct)
-// router.put('/:pid', roleAuth(['admin']), uploader.array('thumbnails'), updateOneProduct)//admin
-// router.delete('/:pid', roleAuth(['admin','premium']), deleteProduct)//admin||premium
-
 router.get('/', getAll)
-router.post('/', uploader.array('thumbnails'), createProduct)//admin||premium
+router.post('/', roleAuth(['admin','premium']), uploader.array('thumbnails'), createProduct)//admin||premium
 
 router.get('/:pid', getproduct)
-router.put('/:pid', uploader.array('thumbnails'), updateOneProduct)//admin
-router.delete('/:pid', deleteProduct)//admin||premium
+router.put('/:pid', roleAuth(['admin']), uploader.array('thumbnails'), updateOneProduct)//admin
+router.delete('/:pid', roleAuth(['admin','premium']), deleteProduct)//admin||premium
+
+// router.get('/', getAll)
+// router.post('/', uploader.array('thumbnails'), createProduct)//admin||premium
+
+// router.get('/:pid', getproduct)
+// router.put('/:pid', uploader.array('thumbnails'), updateOneProduct)//admin
+// router.delete('/:pid', deleteProduct)//admin||premium
 
 export default router

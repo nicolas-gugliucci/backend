@@ -1,0 +1,39 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+html{
+    font-size: 62.5%;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: initial;
+    line-height: normal;
+}
+h2{
+    font-size: 3rem !important;
+}
+h3, h4{
+    font-size: 2.5rem !important;
+}
+h5{
+    font-size: 1.8rem !important;
+}
+p, i{
+    font-size: 1.6rem !important;
+}
+body{
+    background-color: wheat;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+.userContainer{
+    width: 90%;
+    margin-top: 5%;
+    height: auto;
+    display: flex;
+}
+.column {
+    flex: 1;
+}

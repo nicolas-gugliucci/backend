@@ -1,22 +1,64 @@
-<div>
-    {{#each products}}
-        <div>
-            <p>Id: {{_id._id}}</p>
-            <p>Title: {{_id.title}}</p>
-            <p>Description: {{_id.description}}</p>
-            <p>Code: {{_id.code}}</p>
-            <p>Price: {{_id.price}}</p>
-            <p>Status: {{_id.status}}</p>
-            <p>Stock: {{_id.stock}}</p>
-            <p>Category: {{_id.category}}</p>
-            {{#if _id.thumbnails}}
-                <p>Tumbnails:</p>
-                {{#each _id.thumbnails}}
-                    <img style="height: 150px;" src="{{this}}"/>
-                {{/each}}
-            {{/if}}
-        </div>
-        <div>quantity: {{quantity}}</div>
-        <hr>
-    {{/each}}
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/cart.css">
+</head>
+<body style="background-color: wheat;">
+    <div style="background-color: wheat;">
+        <button id="back" class="btn btn.primary" style="background-color: wheat;"><i class="bi bi-arrow-left-short"></i></button>
+        {{#if products.length}}
+            <div class='totalView'>
+                <div class='halfView'>
+                    {{#each products}}
+                        <div class='itemContainer'>
+                            <div class="item">
+                                <div class='itemSum'>
+                                    {{#if this._id.thumbnails}}
+                                        <img src="{{this._id.thumbnails.[0]}}" alt="{{this._id.title}}">
+                                    {{else}}
+                                        <img src="/assets/images/no_image.jpg" alt="No image">
+                                    {{/if}}
+                                    <div class='itemSumInfo'>
+                                        <h3>{{this._id.title}}</h3>
+                                        <h4>Category: {{this._id.category}}</h4>
+                                    </div>
+                                </div>
+                                <div class='priceDiv'>
+                                    <div>
+                                        <p>Unit price</p>
+                                        <p>US$ {{this._id.price}}</p>
+                                    </div>
+                                    <div>
+                                        <p>Quantity</p>
+                                        <p>x{{this.quantity}}</p>
+                                    </div>
+                                    <div>
+                                        <strong>Total price</strong>
+                                        <strong>US$ {{multiply this.quantity this._id.price}}</strong>
+                                    </div>
+                                </div>
+                                <div className='editContent'>
+                                    <button name="deleteButton" class='delateButton btn btn-outline-danger' value="{{this._id._id}}"><i class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    {{/each}}
+                    <button class='big btn btn-danger' id="cleanCart">Clean cart</button>
+                </div>
+                <div class='totalSum'>
+                    <h2>Total: US$ {{calculateTotal products}}</h2>
+                    <a id="purchase" class='big btn btn-success large'>Buy</a>
+                </div>
+            </div>
+        {{else}}
+            <h2>There are no items in your cart</h2>
+        {{/if}}
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>

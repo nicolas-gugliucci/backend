@@ -4,7 +4,7 @@ export default class UserDAO {
 
     getAll = async() => {
         try {
-            let users = await userModel.find().populate('carts')
+            let users = await userModel.find()
             return users.map(user => user.toObject())
         } catch (error) {
             return { message: error.message, error: error.name }
@@ -12,7 +12,7 @@ export default class UserDAO {
     }
     saveUser = async(user)=>{
         try {
-            let result = (await userModel.create(user)).populate('carts').lean()
+            let result = (await userModel.create(user)).populate('cart._id').lean()
             return result
         } catch (error) {
             return { message: error.message, error: error.name }
