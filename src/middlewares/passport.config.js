@@ -8,8 +8,8 @@ import generarStringAleatorio from "../utils/text.js";
 import { __dirname, __filename } from "../utils/utils.js";
 
 const LocalStrategy = local.Strategy
-const host = HOST; 
-console.log(HOST)
+const host = 'backend-production-f121.up.railway.app'; 
+console.log(host)
 
 export const initPassport = () => {
     passport.use(
