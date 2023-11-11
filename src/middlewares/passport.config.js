@@ -39,6 +39,7 @@ export const initPassport = () => {
                     console.log(`${currentUrl}/api/carts`)
                     fetch(`${currentUrl}/api/carts`,{
                         method:'POST',
+                        body:JSON.stringify({}),
                         headers:{
                             'Content-Type':'application/json'
                         }
