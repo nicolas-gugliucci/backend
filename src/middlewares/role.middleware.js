@@ -2,7 +2,7 @@ export const roleAuth = (admited) => {
     return async (req, res, next) => {
         try {
             const role = req?.session?.user?.role;
-            if (admited.some((admitedRole) => admitedRole.toUpperCase() === role.toUpperCase())) {
+            if (admited.some((admitedRole) => admitedRole.toUpperCase() === role?.toUpperCase())) {
                 next();
             } else {
                 res.status(403).send({status:'error',error:'Unauthorized'});

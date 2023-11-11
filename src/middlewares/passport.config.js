@@ -19,6 +19,7 @@ export const initPassport = () => {
             },
             async (req, username, password, done) => {
                 const { first_name, last_name, email, age } = req.body;
+
                 try {
                     const exist = await userModel.findOne({email: username})
                     let img = null
