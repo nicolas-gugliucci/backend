@@ -70,7 +70,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `http://${host}/api/sessions/githubcallback`
+                callbackURL: `http://backend-production-f121.up.railway.app/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
