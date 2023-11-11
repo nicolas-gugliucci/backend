@@ -36,9 +36,12 @@ export const initPassport = () => {
                     const protocolo = req.protocol;
                     const host = req.get('host');
                     const currentUrl = `${protocolo}://${host}`;
-                    
+                    console.log(`${currentUrl}/api/carts`)
                     fetch(`${currentUrl}/api/carts`,{
                         method:'POST',
+                        headers:{
+                            'Content-Type':'application/json'
+                        }
                     }).then(result => {
                         if (result.ok) {
                             return result.json();
