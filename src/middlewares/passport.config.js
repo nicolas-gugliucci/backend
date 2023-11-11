@@ -9,6 +9,7 @@ import { __dirname, __filename } from "../utils/utils.js";
 
 const LocalStrategy = local.Strategy
 const host = HOST; 
+console.log(HOST)
 
 export const initPassport = () => {
     passport.use(
@@ -73,14 +74,18 @@ export const initPassport = () => {
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
+                    console.log('1')
                     let newUser = {}
                     let user = {}
                     if(profile._json.email){
+                        console.log('2')
                         user = await userModel.findOne({ email: profile._json.email })
                     }else {
+                        console.log('2.1')
                         user = await userModel.findOne({ gitId: profile._json.id })
                     }               
                     if (!user) {
+                        console.log('2.2')
                         console.log('no encontrado')
                         const password = generarStringAleatorio(10)
                         const cartsURL = `http://${host}/api/carts`;
