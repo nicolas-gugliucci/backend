@@ -8,8 +8,6 @@ import generarStringAleatorio from "../utils/text.js";
 import { __dirname, __filename } from "../utils/utils.js";
 
 const LocalStrategy = local.Strategy
-const host = 'backend-production-f121.up.railway.app'; 
-console.log(host)
 
 export const initPassport = () => {
     passport.use(
@@ -70,7 +68,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `http://backend-production-f121.up.railway.app/api/sessions/githubcallback`
+                callbackURL: `http://${HOST}/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
@@ -88,7 +86,7 @@ export const initPassport = () => {
                         console.log('2.2')
                         console.log('no encontrado')
                         const password = generarStringAleatorio(10)
-                        const cartsURL = `http://${host}/api/carts`;
+                        const cartsURL = `http://${HOST}/api/carts`;
 
                         fetch(cartsURL, {
                             method:'POST',
@@ -117,8 +115,7 @@ export const initPassport = () => {
                 }catch (error) {
                     return done(error)
                 }
-            },
-            host
+            }
         )
     );
     passport.use(
