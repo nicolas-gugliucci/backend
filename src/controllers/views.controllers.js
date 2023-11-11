@@ -8,12 +8,19 @@ const cartsManager = new CartService()
 
 class viewsController {
     async home (req, res) {
-        //if (!req.session?.user) return res.redirect(`http://localhost:${PORT_ENV}/login`)
+        const protocolo = req.protocol;
+        const host = req.get('host');
+        const ruta = req.originalUrl;
+        const url = `${protocolo}://${host}`;
+        const currentUrl = `${protocolo}://${host}${ruta}`;
+       
+        if (!req.session?.user) return res.redirect(`${url}/login`)
         const limit = req.query.limit
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
+
+
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('home', {
             style: 'index.css',
@@ -28,7 +35,12 @@ class viewsController {
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
+        
+        const protocolo = req.protocol;
+        const host = req.get('host');
+        const ruta = req.originalUrl;
+        const currentUrl = `${protocolo}://${host}${ruta}`;
+
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('realTimeProducts', {
             style: 'index.css',
@@ -48,16 +60,10 @@ class viewsController {
         const query = req.query.query
         
         const protocolo = req.protocol;
-
-        // Obtén el nombre de host
         const host = req.get('host');
-      
-        // Obtén la ruta específica de la solicitud
         const ruta = req.originalUrl;
-      
-        // Combina el protocolo, el nombre de host y la ruta para obtener la ruta completa
         const currentUrl = `${protocolo}://${host}${ruta}`;
-        //const currentUrl = window.location.href
+
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('products', {
             style: 'index.css',

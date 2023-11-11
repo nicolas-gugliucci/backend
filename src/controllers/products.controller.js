@@ -13,7 +13,12 @@ class productController{
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
+        
+        const protocolo = req.protocol;
+        const host = req.get('host');
+        const ruta = req.originalUrl;
+        const currentUrl = `${protocolo}://${host}${ruta}`;
+
         let products = await service.getProducts(limit, page, sort, query, currentUrl)
         if (products === -8 || products?.error) errors(req, res, products)
         else res.send({

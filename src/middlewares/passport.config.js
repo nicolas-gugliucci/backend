@@ -2,11 +2,13 @@ import passport from "passport";
 import local from "passport-local";
 import {userModel} from "../models/schemas/user.schema.js";
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
-import { CLIENT_ID, CLIENT_SECRET, PORT_ENV } from "../config/config.js";
+import { CLIENT_ID, CLIENT_SECRET, HOST, PORT_ENV } from "../config/config.js";
 import GitHubStrategy from 'passport-github2'
 import generarStringAleatorio from "../utils/text.js";
+import { __dirname, __filename } from "../utils/utils.js";
 
 const LocalStrategy = local.Strategy
+const host = HOST; 
 
 export const initPassport = () => {
     passport.use(
@@ -30,7 +32,12 @@ export const initPassport = () => {
                     if (!img) img = './assets/images/user.png'
                     if (exist) return done('The user already exist')
                     if (!last_name) return done('Last name is obligatory')
-                    fetch(`http://localhost:${PORT_ENV}/api/carts`,{
+
+                    const protocolo = req.protocol;
+                    const host = req.get('host');
+                    const currentUrl = `${protocolo}://${host}`;
+
+                    fetch(`${currentUrl}/api/carts`,{
                         method:'POST',
                     }).then(result => {
                         if (result.ok) {
@@ -62,7 +69,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `http://localhost:${PORT_ENV}/api/sessions/githubcallback`
+                callbackURL: `/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
@@ -76,7 +83,9 @@ export const initPassport = () => {
                     if (!user) {
                         console.log('no encontrado')
                         const password = generarStringAleatorio(10)
-                        fetch(`http://localhost:${PORT_ENV}/api/carts`,{
+                        const cartsURL = `http://${host}/api/carts`;
+
+                        fetch(cartsURL, {
                             method:'POST',
                         }).then(result => {
                             if (result.ok) {
@@ -103,7 +112,8 @@ export const initPassport = () => {
                 }catch (error) {
                     return done(error)
                 }
-            }
+            },
+            host
         )
     );
     passport.use(

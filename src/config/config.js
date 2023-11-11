@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import params from './params.js'
 import nodemailer from 'nodemailer'
 
-const environment = 'PRODUCTION'
+const environment = 'production'
 
 dotenv.config({
     path: './.env'//'DEVELOPMENT'?'./.env.development':'./.env.production'
@@ -22,6 +22,7 @@ const PORT_ENV = process.env.PORT
 const LOGGER_LEVEL = process.env.LOGGER_LEVEL
 const MAIL_PASSWORD = process.env.MAIL_PASSWORD
 const MAIL = process.env.MAIL
+const HOST = process.env.HOST
 
 const transport = nodemailer.createTransport({
     service: 'gmail',
@@ -33,4 +34,4 @@ const transport = nodemailer.createTransport({
 })
 
 
-export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL, DATABASE_TEST_URL}
+export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL, DATABASE_TEST_URL, HOST}

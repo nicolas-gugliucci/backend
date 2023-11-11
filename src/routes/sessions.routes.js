@@ -67,5 +67,5 @@ router.delete('/delete/:email', deleteUserByAdmin)
 router.get('/', roleAuth(['admin']), getAllUsers)
 router.delete('/', roleAuth(['admin']), deleteUsers)
 
-
+const host = 'localhost:3000'; // Reemplaza esto con el host de tu aplicación
 export default router

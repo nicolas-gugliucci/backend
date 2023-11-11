@@ -11,7 +11,12 @@ const service = new UserService()
 class sessionController {
     async logout (req, res) {
         const sessionId = req.session.id
-        let user = await service.getById({email: req.session.user.email})
+        let user = undefined
+        if (req?.session?.user?.email) {
+            user = await service.getById({email: req.session.user.email})
+        }else{
+            user = await service.getById({gitId: req.session.user.gitId})
+        }
         user.last_connection = new Date()
         const result = await service.updateUser(user._id, user)
         req.session.destroy(err => {
@@ -121,6 +126,10 @@ class sessionController {
             req.session.resetPasswordToken = token;
             req.session.resetPasswordExpires = expirationTime;
             req.session.user = {email:email}
+
+            const protocolo = req.protocol;
+            const host = req.get('host');
+            const currentUrl = `${protocolo}://${host}`;
             
             const mailParams = {
                 from : `${MAIL}`,
@@ -131,7 +140,7 @@ class sessionController {
                         <h1>Reset your password</h1>
                         <p>To reset your password please click on the "Reset password" button</p>
                         <button style="background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; padding: 10px 0px;">
-                            <a style="padding: 10px 20px; color: white; text-decoration: none;" target="_blank" href='http://localhost:${PORT_ENV}/resetPassword?token=${token}'>Reset password</a>
+                            <a style="padding: 10px 20px; color: white; text-decoration: none;" target="_blank" href='${currentUrl}/resetPassword?token=${token}'>Reset password</a>
                         </button>
                     </div>`,
             }
