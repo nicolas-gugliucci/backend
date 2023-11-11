@@ -2,7 +2,7 @@ import passport from "passport";
 import local from "passport-local";
 import {userModel} from "../models/schemas/user.schema.js";
 import { createHash, isValidPassword } from '../utils/bcrypt.js';
-import { CLIENT_ID, CLIENT_SECRET, HOST, PORT_ENV } from "../config/config.js";
+import { CLIENT_ID, CLIENT_SECRET, PORT_ENV } from "../config/config.js";
 import GitHubStrategy from 'passport-github2'
 import generarStringAleatorio from "../utils/text.js";
 import { __dirname, __filename } from "../utils/utils.js";
@@ -68,7 +68,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `http://${HOST}/api/sessions/githubcallback`
+                callbackURL: `http://localhost:3000/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
@@ -86,7 +86,7 @@ export const initPassport = () => {
                         console.log('2.2')
                         console.log('no encontrado')
                         const password = generarStringAleatorio(10)
-                        const cartsURL = `http://${HOST}/api/carts`;
+                        const cartsURL = `http://localhost:3000/api/carts`;
 
                         fetch(cartsURL, {
                             method:'POST',

@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "start": "cd src && nodemon ./app.js",
+    "start": "cd src && node ./app.js",
     "test": "mocha test/routes/*.test.js"
   },
   "author": "gugliucci.nicolas@gmail.com",
