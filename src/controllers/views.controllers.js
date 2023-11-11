@@ -13,7 +13,7 @@ class viewsController {
         const ruta = req.originalUrl;
         const url = `${protocolo}://${host}`;
         const currentUrl = `${protocolo}://${host}${ruta}`;
-       
+        console.log(currentUrl)
         if (!req.session?.user) return res.redirect(`${url}/login`)
         const limit = req.query.limit
         const page = req.query.page

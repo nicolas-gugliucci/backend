@@ -69,7 +69,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `/api/sessions/githubcallback`
+                callbackURL: `http://${host}/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
