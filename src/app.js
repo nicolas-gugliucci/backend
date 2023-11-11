@@ -73,11 +73,6 @@ app.use(session({
 app.use(cookieParser());
 app.use(addLogger)
 
-app.use((req, res, next) => {
-    req.apiUrl = `http://${req.get('host')}/ruta-especifica`;
-    next();
-});
-
 initPassport()
 app.use(passport.initialize())
 app.use(passport.session())
