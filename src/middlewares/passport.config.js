@@ -70,7 +70,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `${host}/api/sessions/githubcallback`
+                callbackURL: `http://${host}/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
@@ -88,7 +88,7 @@ export const initPassport = () => {
                         console.log('2.2')
                         console.log('no encontrado')
                         const password = generarStringAleatorio(10)
-                        const cartsURL = `${host}/api/carts`;
+                        const cartsURL = `http://${host}/api/carts`;
 
                         fetch(cartsURL, {
                             method:'POST',
