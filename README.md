@@ -34,17 +34,17 @@
 
 ### El flujo principal se encontrará a partir de `http://localhost:<PORT>/login`
 
-### Puede visitar adicionalmente los siguientes enlaces para acceder a diferentes vistas:
+### Puede visitar adicionalmente los siguientes endpoints para acceder a diferentes vistas:
 
-- http://localhost:<PORT>/
+- `http://localhost:<PORT>/`
     **En esta página encontrará el listado de productos actuales cargados a la base de datos. Debe estar logeado para acceder.**
 
-- http://localhost:<PORT>/realtimeproducts 
+- `http://localhost:<PORT>/realtimeproducts`
     **En esta página encontrará el listado de productos cargados a la base de datos actualizados en tiempo real.**
 
 #### Si se encuentra logeado como admin podra acceder adicionalmente a:
 
-- http://localhost:<PORT>/info 
+- `http://localhost:<PORT>/info` 
     **En esta página podrá vizualizar información de usuarios, reasignarles un nuevo rol y eliminarlos.**
 
 
