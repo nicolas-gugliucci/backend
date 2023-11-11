@@ -2,46 +2,20 @@ import dotenv from 'dotenv'
 import params from './params.js'
 import nodemailer from 'nodemailer'
 
+const environment = 'PRODUCTION'
 
-const environment = params.mode;
-console.log(environment)
-// Railway proporciona automáticamente las variables de entorno
-dotenv.config({path: './.env'});
-
-// Ahora, puedes acceder a las variables de entorno directamente
-// sin depender de archivos .env específicos para cada entorno
-
-// Ejemplo de cómo puedes usar la variable de entorno NODE_ENV
-let PORT_ENV
-let LOGGER_LEVEL
-if (environment.toUpperCase() === 'DEVELOPMENT') {
-    PORT_ENV = process.env.PORT_DEV
-    LOGGER_LEVEL = process.env.LOGGER_LEVEL_DEV
-} else {
-    PORT_ENV = process.env.PORT_PROD
-    LOGGER_LEVEL = process.env.LOGGER_LEVEL_PROD
-}
-
-
-// const environment = 'production'
-
-// dotenv.config({
-//     path: './.env'//'DEVELOPMENT'?'./.env.development':'./.env.production'
-// })
-
-// const environment = (params.mode)
-
-// dotenv.config({
-//     path: environment.toUpperCase()==='DEVELOPMENT'?'./.env.development':'./.env.production'
-// })
+dotenv.config({
+    path: './.env'//'DEVELOPMENT'?'./.env.development':'./.env.production'
+})
 const DATABASE_TEST_URL = process.env.DATABASE_TEST_URL
 const DATABASE_URL = process.env.DATABASE_URL
 const MONGO_STORE_SECRET = process.env.MONGO_STORE_SECRET
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
+const PORT_ENV = process.env.PORT
+const LOGGER_LEVEL = process.env.LOGGER_LEVEL
 const MAIL_PASSWORD = process.env.MAIL_PASSWORD
 const MAIL = process.env.MAIL
-const HOST = process.env.HOST
 
 const transport = nodemailer.createTransport({
     service: 'gmail',
@@ -51,15 +25,6 @@ const transport = nodemailer.createTransport({
         pass: `${MAIL_PASSWORD}`
     }
 })
-console.log(PORT_ENV)
-console.log(LOGGER_LEVEL)
-console.log(DATABASE_TEST_URL)
-console.log(DATABASE_URL)
-console.log(MONGO_STORE_SECRET)
-console.log(CLIENT_ID)
-console.log(CLIENT_SECRET)
-console.log(MAIL_PASSWORD)
-console.log(MAIL)
-console.log(HOST)
 
-export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL, DATABASE_TEST_URL, HOST}
+
+export {DATABASE_URL, MONGO_STORE_SECRET, CLIENT_ID, CLIENT_SECRET, PORT_ENV, LOGGER_LEVEL, environment, transport, MAIL, DATABASE_TEST_URL}
