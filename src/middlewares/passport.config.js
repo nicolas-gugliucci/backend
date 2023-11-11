@@ -36,11 +36,13 @@ export const initPassport = () => {
                     const protocolo = req.protocol;
                     const host = req.get('host');
                     const currentUrl = `${protocolo}://${host}`;
-                    console.log(currentUrl)
+                    
                     fetch(`${currentUrl}/api/carts`,{
                         method:'POST',
                     }).then(result => {
+                        console.log('cartcreated')
                         if (result.ok) {
+                            console.log('ok')
                             return result.json();
                         }
                     }).then(async data => {
