@@ -35,7 +35,6 @@ export const initPassport = () => {
                     const protocolo = req.protocol;
                     const host = req.get('host');
                     const currentUrl = `${protocolo}://${host}`;
-                    console.log(currentUrl)
                     fetch(`${currentUrl}/api/carts`,{
                         method:'POST',
                     }).then(result => {
@@ -43,6 +42,8 @@ export const initPassport = () => {
                             return result.json();
                         }
                     }).then(async data => {
+                        console.log(data)
+                        console.log(data.payload)
                         let cid = data.payload._id
                         const user= {
                             first_name,
