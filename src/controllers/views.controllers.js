@@ -8,11 +8,12 @@ const cartsManager = new CartService()
 
 class viewsController {
     async home (req, res) {
+        if (!session?.user) return res.redirect(`http://localhost:${PORT_ENV}/login`)
         const limit = req.query.limit
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:8080${req.originalUrl}`
+        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('home', {
             style: 'index.css',
@@ -27,7 +28,7 @@ class viewsController {
         const page = req.query.page
         const sort = req.query.sort
         const query = req.query.query
-        const currentUrl = `http://localhost:8080${req.originalUrl}`
+        const currentUrl = `http://localhost:${PORT_ENV}${req.originalUrl}`
         let products = await manager.getProducts(limit, page, sort, query, currentUrl)
         res.render('realTimeProducts', {
             style: 'index.css',
