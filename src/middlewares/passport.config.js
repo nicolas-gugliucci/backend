@@ -40,9 +40,7 @@ export const initPassport = () => {
                     fetch(`${currentUrl}/api/carts`,{
                         method:'POST',
                     }).then(result => {
-                        console.log(result)
                         if (result.ok) {
-                            console.log('ok')
                             return result.json();
                         }
                     }).then(async data => {
