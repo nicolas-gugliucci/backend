@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer'
 const environment = (params.mode)
 
 dotenv.config({
-    path: environment.toUpperCase()==='DEVELOPMENT'?'./.env.development':'./.env.production'
+    path: environment.toUpperCase()==='./.env'//'DEVELOPMENT'?'./.env.development':'./.env.production'
 })
 const DATABASE_TEST_URL = process.env.DATABASE_TEST_URL
 const DATABASE_URL = process.env.DATABASE_URL
