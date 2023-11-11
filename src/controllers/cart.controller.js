@@ -19,7 +19,10 @@ class cartController{
     }
 
     async createCart (req, res) {
+        console.log('holaa')
         const result = await service.newCart()
+        console.log(result)
+
         if (result.error === 1) res.send({
             status: 'Success',
             message: 'Cart created',
