@@ -10,11 +10,7 @@
 
 **Luego de esto ejecutar:**
 
-`npm start`
-
-**o bien, pararse en la capeta "src" y ejecutar:**
-
-`nodemon ./app.js`
+`nodemon ./src/app.js`
 
 ## ⚙️ Configuración del proyecto:
 
