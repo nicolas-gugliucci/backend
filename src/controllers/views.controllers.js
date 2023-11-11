@@ -8,7 +8,7 @@ const cartsManager = new CartService()
 
 class viewsController {
     async home (req, res) {
-        if (!req.session?.user) return res.redirect(`http://localhost:${PORT_ENV}/login`)
+        //if (!req.session?.user) return res.redirect(`http://localhost:${PORT_ENV}/login`)
         const limit = req.query.limit
         const page = req.query.page
         const sort = req.query.sort
