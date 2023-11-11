@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import params from './params.js'
 import nodemailer from 'nodemailer'
 
-//const environment = (params.mode)
+const environment = 'PRODUCTION'
 
 dotenv.config({
     path: './.env'//'DEVELOPMENT'?'./.env.development':'./.env.production'
