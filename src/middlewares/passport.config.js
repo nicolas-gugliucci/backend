@@ -68,7 +68,7 @@ export const initPassport = () => {
             {
                 clientID: `${CLIENT_ID}`,
                 clientSecret: `${CLIENT_SECRET}`,
-                callbackURL: `http://localhost:3000/api/sessions/githubcallback`
+                callbackURL: `http://backend-production-7c5e.up.railway.app/api/sessions/githubcallback`
             },
             async (accessToken,refreshToken,profile, done) => {
                 try {
@@ -86,7 +86,7 @@ export const initPassport = () => {
                         console.log('2.2')
                         console.log('no encontrado')
                         const password = generarStringAleatorio(10)
-                        const cartsURL = `http://localhost:3000/api/carts`;
+                        const cartsURL = `http://backend-production-7c5e.up.railway.app/api/carts`;
 
                         fetch(cartsURL, {
                             method:'POST',
